@@ -1,0 +1,30 @@
+\documentclass[unicode, 12pt, a4paper, oneside, fleqn]{article}
+
+\usepackage{styles/log-style}
+
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+\lstdefinestyle{console}{
+  language={},
+  basicstyle=\small\ttfamily,
+  columns=fullflexible,
+  keepspaces=true,
+  numbers=none,
+  frame=single,
+  keywordstyle={},
+  stringstyle={},
+}
+
+\begin{document}
+
+\input{src/titlepage}
+\input{src/lu}
+\input{src/tridiagonal}
+\input{src/iterative}
+\input{src/rotation}
+\input{src/qr}
+\input{src/common}
+\input{src/conclusions}
+\input{src/literature}
+
+\end{document}

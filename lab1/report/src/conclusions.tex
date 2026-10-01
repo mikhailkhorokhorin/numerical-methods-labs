@@ -1,0 +1,25 @@
+\section{Conclusions}
+
+In this laboratory work for the course \enquote{Numerical Methods} I implemented the basic
+methods of numerical linear algebra and applied them to variant 28.
+
+Direct methods give the solution in a fixed number of operations. The LU decomposition with
+partial pivoting solves a general system in $O(n^3)$, and the same factorization gives the
+determinant and the inverse matrix. The Thomas algorithm uses the structure of a tridiagonal
+matrix and solves the system in $O(n)$; diagonal dominance with non-zero off-diagonal elements
+guarantees its stability.
+
+Iterative methods trade exactness for simplicity of every step. For the diagonally dominant
+system of the variant the Seidel method needed about half as many iterations as the simple
+iteration method, in agreement with the ratio of the spectral radii of their iteration matrices,
+while the a priori estimate turned out to be about 7 times too pessimistic.
+
+The rotation method finds the complete eigensystem of a symmetric matrix: the error decreases
+monotonically and at the end converges quadratically. The QR algorithm with Householder
+reflections works for arbitrary matrices and finds complex eigenvalues as $2 \times 2$ blocks;
+its rate depends on the ratio of the moduli of the eigenvalues.
+
+All results were verified by unit tests on random matrices (residuals, orthogonality, trace and
+determinant) and by end-to-end tests of the programs.
+
+\pagebreak

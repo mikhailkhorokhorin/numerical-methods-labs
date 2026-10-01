@@ -1,0 +1,120 @@
+\section{Simple iteration and Seidel methods}
+
+\subsection{Task}
+
+Implement the simple iteration method and the Seidel method taking the matrix, the right-hand side
+and the precision as input. Solve the system and analyze the number of iterations needed to reach
+the given precision.
+
+\[
+\begin{cases}
+10x_1 + 2x_3 + 4x_4 = 110 \\
+2x_1 + 16x_2 - 3x_3 + 8x_4 = 128 \\
+x_1 + 5x_2 + 11x_3 - 4x_4 = 102 \\
+8x_1 + x_2 + 6x_3 - 17x_4 = 81
+\end{cases}
+\]
+
+\subsection{Method}
+
+The system is rewritten in the equivalent form $x = \beta + \alpha x$, where
+$\beta_i = b_i / a_{ii}$, $\alpha_{ij} = -a_{ij} / a_{ii}$ for $i \ne j$ and $\alpha_{ii} = 0$.
+Both methods start from $x^{(0)} = \beta$.
+
+The simple iteration method computes $x^{(k+1)} = \beta + \alpha x^{(k)}$. The Seidel method uses
+the components that are already updated in the current iteration:
+
+\[
+x_i^{(k+1)} = \beta_i + \sum_{j<i} \alpha_{ij} x_j^{(k+1)} + \sum_{j>i} \alpha_{ij} x_j^{(k)}.
+\]
+
+If $\|\alpha\| < 1$, both methods converge for any initial vector, and the iterations stop when
+the a posteriori estimate of the error does not exceed $\varepsilon$:
+
+\[
+\varepsilon^{(k)} = \frac{\|\alpha\|}{1 - \|\alpha\|} \|x^{(k)} - x^{(k-1)}\| \le \varepsilon,
+\qquad
+\varepsilon^{(k)} = \frac{\|C\|}{1 - \|\alpha\|} \|x^{(k)} - x^{(k-1)}\| \le \varepsilon,
+\]
+
+for the simple iteration and the Seidel method respectively, where $C$ is the upper triangular
+part of $\alpha$ ($c_{ij} = \alpha_{ij}$ for $j > i$). If $\|\alpha\| \ge 1$, the criterion is
+$\|x^{(k)} - x^{(k-1)}\| \le \varepsilon$. All norms are $\|\cdot\|_\infty$. The a priori estimate
+of the number of simple iterations is
+
+\[
+k + 1 \ge \frac{\lg \varepsilon - \lg \|\beta\| + \lg (1 - \|\alpha\|)}{\lg \|\alpha\|}.
+\]
+
+A zero on the diagonal makes the transformation impossible. A non-finite iterate or $10^5$
+iterations without reaching the precision mean that the method does not converge. The program
+reports this for each method separately and fails only if neither method converges.
+
+\subsection{Results}
+
+The program reads $n$, the matrix $A$, the vector $b$ and the precision $\varepsilon$.
+
+\needspace{10\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/iterative/01.in}]{../tests/data/iterative/01.in}
+\lstinputlisting[style=console, caption={tests/data/iterative/01.out}]{../tests/data/iterative/01.out}
+
+The exact solution is $x = (9, 7, 6, 2)^T$. The matrix is diagonally dominant and
+$\|\alpha\|_\infty = 10/11 \approx 0.9091$, so both methods converge.
+
+\subsection{Analysis}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|r|r|r|r|}
+\hline
+\rowcolor{lightgray}
+$\varepsilon$ & A priori estimate & Simple iteration & Seidel \\
+\hline
+$10^{-1}$ & 74 & 12 & 7 \\
+\hline
+$10^{-2}$ & 98 & 15 & 9 \\
+\hline
+$10^{-3}$ & 122 & 18 & 10 \\
+\hline
+$10^{-4}$ & 146 & 22 & 12 \\
+\hline
+$10^{-5}$ & 171 & 26 & 14 \\
+\hline
+$10^{-6}$ & 195 & 29 & 15 \\
+\hline
+$10^{-7}$ & 219 & 33 & 17 \\
+\hline
+$10^{-8}$ & 243 & 36 & 19 \\
+\hline
+$10^{-9}$ & 267 & 40 & 20 \\
+\hline
+$10^{-10}$ & 291 & 43 & 22 \\
+\hline
+\end{tabular}
+\caption{Number of iterations depending on the precision}
+\end{table}
+
+The number of iterations grows linearly in $\lg(1/\varepsilon)$: about 3.5 iterations per decimal
+digit for the simple iteration and about 1.7 for the Seidel method. The rate is determined by the
+spectral radius of the iteration matrix, $\rho(\alpha) \approx 0.518$, which gives
+$1 / \lg(1/0.518) \approx 3.5$. For the Seidel method the spectral radius is
+$\rho \approx 0.257 \approx \rho(\alpha)^2$, so it needs about half as many iterations.
+
+The a priori estimate is correct but about 7 times too pessimistic: it uses
+$\|\alpha\|_\infty \approx 0.909$, which is much larger than $\rho(\alpha)$. The estimate is
+useful to guarantee termination, while the a posteriori criterion stops the process in time.
+
+The condition $\|\alpha\| < 1$ is only sufficient. For the matrix with ones on the diagonal and
+$0.5$ elsewhere $\|\alpha\|_\infty = \rho(\alpha) = 1$: the error along $(1, 1, 1)^T$ changes its
+sign at every step and the simple iteration never converges, while the Seidel method converges,
+because the matrix is symmetric and positive definite.
+
+\needspace{8\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/iterative/03.out}]{../tests/data/iterative/03.out}
+
+\subsection{Source code}
+
+\lstinputlisting[caption={include/iterative.hpp}]{../include/iterative.hpp}
+\lstinputlisting[caption={src/iterative.cpp}]{../src/iterative.cpp}
+
+\pagebreak

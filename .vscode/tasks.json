@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "lab",
+      "type": "pickString",
+      "description": "Lab",
+      "options": [
+        "lab1"
+      ]
+    },
+    {
+      "id": "app",
+      "type": "pickString",
+      "description": "Executable",
+      "options": [
+        "lu",
+        "tridiagonal",
+        "iterative",
+        "rotation",
+        "qr"
+      ],
+      "default": "lu"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "make build LAB=${input:lab}",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Test",
+      "type": "shell",
+      "command": "make test LAB=${input:lab}",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "make run LAB=${input:lab} APP=${input:app}",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Format",
+      "type": "shell",
+      "command": "make format",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Lint",
+      "type": "shell",
+      "command": "make lint",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Coverage",
+      "type": "shell",
+      "command": "make coverage",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "CI",
+      "type": "shell",
+      "command": "make ci",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    }
+  ]
+}

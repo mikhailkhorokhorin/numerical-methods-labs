@@ -1,0 +1,88 @@
+\section{QR algorithm}
+
+\subsection{Task}
+
+Implement the QR decomposition of a matrix. Based on it, implement the QR algorithm for the full
+eigenvalue problem of an arbitrary matrix taking the matrix and the precision as input, and find
+the eigenvalues of the matrix.
+
+\[
+A = \begin{pmatrix}
+6 & -3 & 7 \\
+9 & 1 & -6 \\
+3 & -5 & 5
+\end{pmatrix}
+\]
+
+\subsection{Method}
+
+The QR decomposition $A = QR$ with an orthogonal $Q$ and an upper triangular $R$ is built with
+Householder reflections. At step $k = 1, \ldots, n - 1$ the vector $v$ is formed from the part of
+column $k$ on and below the diagonal:
+
+\[
+v = a_k + \operatorname{sign}(a_{kk}) \|a_k\|_2 e_k, \qquad
+H_k = E - \frac{2 v v^T}{v^T v}.
+\]
+
+The reflection $H_k$ zeroes the elements below the diagonal in column $k$, and the choice of the
+sign avoids cancellation. Then $R = H_{n-1} \cdots H_1 A$ and $Q = H_1 \cdots H_{n-1}$. The
+reflections are applied as rank-one updates without forming $H_k$.
+
+The QR algorithm builds the sequence $A^{(0)} = A$, $A^{(k)} = Q^{(k)} R^{(k)}$,
+$A^{(k+1)} = R^{(k)} Q^{(k)} = Q^{(k)T} A^{(k)} Q^{(k)}$ of similar matrices. It converges to a
+block upper triangular form: $1 \times 1$ blocks hold real eigenvalues and $2 \times 2$ blocks hold
+pairs of complex conjugate eigenvalues. The diagonal is scanned column by column:
+
+\begin{itemize}
+    \item if $\bigl(\sum_{i>j} a_{ij}^2\bigr)^{1/2} \le \varepsilon$, then $a_{jj}$ is a real
+    eigenvalue;
+    \item otherwise columns $j, j + 1$ form a block, whose eigenvalues are the roots of
+    $(a_{jj} - \lambda)(a_{j+1,j+1} - \lambda) = a_{j,j+1} a_{j+1,j}$. The block is accepted when
+    the elements below it are smaller than $\varepsilon$ and its eigenvalues differ from those of
+    the previous iteration by at most $\varepsilon$.
+\end{itemize}
+
+The iterations stop when every diagonal position is covered by an accepted block. For complex
+eigenvalues the sub-diagonal element of the block does not vanish, so the stability of the block
+eigenvalues is the only possible criterion.
+
+\subsection{Results}
+
+The program reads $n$, the matrix $A$ and the precision $\varepsilon$ and prints the QR
+decomposition of $A$, the number of iterations and the eigenvalues.
+
+\needspace{10\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/qr/01.in}]{../tests/data/qr/01.in}
+\lstinputlisting[style=console, caption={tests/data/qr/01.out}]{../tests/data/qr/01.out}
+
+The matrix has one real eigenvalue and a pair of complex conjugate eigenvalues. The unit tests
+check $QR = A$ and $Q^T Q = E$, compare the eigenvalues of symmetric matrices with the rotation
+method and check that the sum and the product of the eigenvalues are equal to the trace and the
+determinant of random matrices up to $6 \times 6$.
+
+\subsection{Analysis}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|r|r|r|r|r|r|}
+\hline
+\rowcolor{lightgray}
+$\varepsilon$ & $10^{-1}$ & $10^{-2}$ & $10^{-3}$ & $10^{-4}$ & $10^{-8}$ \\
+\hline
+Iterations & 7 & 9 & 12 & 15 & 26 \\
+\hline
+\end{tabular}
+\caption{Number of QR iterations depending on the precision}
+\end{table}
+
+The elements below the $2 \times 2$ block decrease as
+$\bigl(|\lambda_3| / |\lambda_{1,2}|\bigr)^k = (3.83 / 8.81)^k \approx 0.435^k$, which gives
+$1 / \lg(1/0.435) \approx 2.8$ iterations per decimal digit, in agreement with the table.
+
+\subsection{Source code}
+
+\lstinputlisting[caption={include/qr.hpp}]{../include/qr.hpp}
+\lstinputlisting[caption={src/qr.cpp}]{../src/qr.cpp}
+
+\pagebreak

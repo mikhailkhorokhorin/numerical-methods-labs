@@ -1,0 +1,57 @@
+\section{Thomas algorithm}
+
+\subsection{Task}
+
+Implement the Thomas algorithm (tridiagonal matrix algorithm) taking the non-zero elements of the
+matrix and the right-hand side as input. Use it to solve the system with a tridiagonal matrix.
+
+\[
+\begin{cases}
+16x_1 - 9x_2 = -27 \\
+8x_1 - 13x_2 - 5x_3 = -84 \\
+-3x_2 - 21x_3 + 9x_4 = -225 \\
+-9x_3 + 16x_4 - 5x_5 = -89 \\
+x_4 - 9x_5 = 69
+\end{cases}
+\]
+
+\subsection{Method}
+
+Row $i$ of the system is $a_i x_{i-1} + b_i x_i + c_i x_{i+1} = d_i$ with $a_1 = c_n = 0$.
+The solution is sought as $x_i = P_i x_{i+1} + Q_i$. The forward sweep computes
+
+\[
+P_i = \frac{-c_i}{b_i + a_i P_{i-1}}, \qquad
+Q_i = \frac{d_i - a_i Q_{i-1}}{b_i + a_i P_{i-1}}, \qquad
+P_0 = Q_0 = 0,
+\]
+
+and the backward sweep gives $x_n = Q_n$ and $x_i = P_i x_{i+1} + Q_i$ for
+$i = n - 1, \ldots, 1$. Both sweeps take $O(n)$ operations and $O(n)$ memory.
+
+The sufficient condition of correctness and stability is $a_i \ne 0$, $c_i \ne 0$ and diagonal
+dominance $|b_i| \ge |a_i| + |c_i|$ for every $i$ with a strict inequality for at least one $i$.
+Then $|P_i| \le 1$, the denominators do not vanish and rounding errors do not grow in the
+backward sweep. Without the requirement $a_i, c_i \ne 0$ dominance is not enough: the system can
+split into independent blocks, one of which is singular. The program checks this condition and
+reports it, but it also solves systems that do not satisfy it as long as no denominator is zero.
+
+\subsection{Results}
+
+The program reads $n$, the sub-diagonal $a_2, \ldots, a_n$, the diagonal $b_1, \ldots, b_n$,
+the super-diagonal $c_1, \ldots, c_{n-1}$ and the right-hand side $d_1, \ldots, d_n$.
+
+\needspace{10\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/tridiagonal/01.in}]{../tests/data/tridiagonal/01.in}
+\lstinputlisting[style=console, caption={tests/data/tridiagonal/01.out}]{../tests/data/tridiagonal/01.out}
+
+The solution is $x = (0, 3, 9, -3, -8)^T$. The matrix of the variant is diagonally dominant, the
+second row turns the condition into an equality: $|-13| = |8| + |-5|$. The unit tests compare the
+Thomas algorithm with the LU decomposition on random systems up to $12 \times 12$.
+
+\subsection{Source code}
+
+\lstinputlisting[caption={include/tridiagonal.hpp}]{../include/tridiagonal.hpp}
+\lstinputlisting[caption={src/tridiagonal.cpp}]{../src/tridiagonal.cpp}
+
+\pagebreak

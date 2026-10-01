@@ -1,0 +1,22 @@
+\section{Common code}
+
+All five programs share the library \texttt{lab1\_core}. The class \texttt{Matrix} stores a dense
+matrix in a single vector in row-major order and provides the products and the norms. The module
+\texttt{io} reads the input with strict validation (the size from 1 to 1000, every number in
+$[-10^{100}, 10^{100}]$ so that norms and products cannot overflow, and the absence of trailing
+data) and formats numbers with four digits after the decimal point. The module
+\texttt{cli} contains one function per program; it reads the whole input, computes the result and
+only then prints it, so an error never leaves a partial output. Errors are written to the standard
+error stream as \texttt{error: <message>} with the exit code 1. Every executable in \texttt{app/}
+consists of a single call:
+
+\lstinputlisting[caption={app/lu.cpp}]{../app/lu.cpp}
+
+\lstinputlisting[caption={include/matrix.hpp}]{../include/matrix.hpp}
+\lstinputlisting[caption={src/matrix.cpp}]{../src/matrix.cpp}
+\lstinputlisting[caption={include/io.hpp}]{../include/io.hpp}
+\lstinputlisting[caption={src/io.cpp}]{../src/io.cpp}
+\lstinputlisting[caption={include/cli.hpp}]{../include/cli.hpp}
+\lstinputlisting[caption={src/cli.cpp}]{../src/cli.cpp}
+
+\pagebreak

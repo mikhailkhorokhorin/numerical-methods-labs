@@ -1,0 +1,60 @@
+\section{LU decomposition}
+
+\subsection{Task}
+
+Implement the LU decomposition of a matrix with the choice of the pivot element. Use it to solve
+the system of linear algebraic equations, to compute the determinant and the inverse matrix.
+
+\[
+\begin{cases}
+x_1 + 4x_2 - 9x_3 + 7x_4 = -67 \\
+2x_1 - 2x_2 - 2x_3 + 3x_4 = -57 \\
+-x_1 + 3x_2 - 9x_3 - x_4 = -26 \\
+-5x_1 + 2x_2 + 2x_3 + x_4 = 52
+\end{cases}
+\]
+
+\subsection{Method}
+
+The matrix is factored as $PA = LU$, where $L$ is a unit lower triangular matrix, $U$ is an upper
+triangular matrix and $P$ is a permutation matrix. At step $k = 1, \ldots, n$ the row with the
+largest $|u_{ik}|$, $i \ge k$, is swapped with row $k$ (partial pivoting), and then
+
+\[
+l_{ik} = \frac{u_{ik}}{u_{kk}}, \qquad u_{ij} \leftarrow u_{ij} - l_{ik} u_{kj},
+\qquad i, j > k.
+\]
+
+Partial pivoting keeps $|l_{ik}| \le 1$ and allows zeros on the diagonal of $A$. A pivot
+$|u_{kk}| \le 10^{-12}\|A\|_\infty$ means that the matrix is singular to working precision: a
+relative perturbation of $A$ comparable to rounding errors can make it exactly singular.
+
+The system $Ax = b$ is solved by two triangular substitutions, $Lz = Pb$ and $Ux = z$:
+
+\[
+z_i = (Pb)_i - \sum_{j<i} l_{ij} z_j, \qquad
+x_i = \frac{1}{u_{ii}} \Bigl(z_i - \sum_{j>i} u_{ij} x_j\Bigr).
+\]
+
+The determinant is $\det A = (-1)^s \prod_{i=1}^n u_{ii}$, where $s$ is the number of row swaps.
+The $j$-th column of $A^{-1}$ is the solution of $Ax = e_j$; all $n$ systems reuse the same
+factorization, so the decomposition costs $O(n^3)$ once and every solution costs $O(n^2)$.
+
+\subsection{Results}
+
+The program reads $n$, the matrix $A$ and the vector $b$ and prints $P$ as the order of rows of
+$A$, the factors $L$ and $U$, the solution, the determinant and the inverse matrix.
+
+\needspace{10\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/lu/01.in}]{../tests/data/lu/01.in}
+\lstinputlisting[style=console, caption={tests/data/lu/01.out}]{../tests/data/lu/01.out}
+
+The solution is $x = (-5, 9, 7, -5)^T$ and $\det A = 935$. The unit tests check $LU = PA$,
+$|l_{ik}| \le 1$ and $AA^{-1} = E$ on random matrices up to $8 \times 8$.
+
+\subsection{Source code}
+
+\lstinputlisting[caption={include/lu.hpp}]{../include/lu.hpp}
+\lstinputlisting[caption={src/lu.cpp}]{../src/lu.cpp}
+
+\pagebreak

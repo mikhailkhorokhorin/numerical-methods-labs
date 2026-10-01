@@ -1,0 +1,78 @@
+\section{Jacobi rotation method}
+
+\subsection{Task}
+
+Implement the rotation method taking the matrix and the precision as input. Find the eigenvalues
+and the eigenvectors of the symmetric matrix and analyze the dependence of the error on the number
+of iterations.
+
+\[
+A = \begin{pmatrix}
+3 & 2 & 6 \\
+2 & -3 & -7 \\
+6 & -7 & 3
+\end{pmatrix}
+\]
+
+\subsection{Method}
+
+The method builds a sequence of similar matrices $A^{(k+1)} = U^{(k)T} A^{(k)} U^{(k)}$, where
+$U^{(k)}$ is the rotation in the plane $(i, j)$ of the largest off-diagonal element
+$|a_{ij}^{(k)}|$:
+$u_{ii} = u_{jj} = \cos\varphi_k$, $u_{ij} = -\sin\varphi_k$, $u_{ji} = \sin\varphi_k$.
+The angle makes the element $a_{ij}^{(k+1)}$ zero:
+
+\[
+\varphi_k = \frac{1}{2} \arctan \frac{2 a_{ij}^{(k)}}{a_{ii}^{(k)} - a_{jj}^{(k)}},
+\qquad
+\varphi_k = \frac{\pi}{4} \operatorname{sign} a_{ij}^{(k)} \text{ if } a_{ii}^{(k)} = a_{jj}^{(k)}.
+\]
+
+A rotation changes only rows and columns $i$ and $j$, so one step costs $O(n)$ plus $O(n^2)$ for
+the search of the pivot. The error is measured by the norm of the off-diagonal part
+
+\[
+t\bigl(A^{(k)}\bigr) = \Bigl(\sum_{i<j} \bigl(a_{ij}^{(k)}\bigr)^2\Bigr)^{1/2},
+\]
+
+and the process stops when $t(A^{(k)}) \le \varepsilon$. The diagonal of $A^{(k)}$ contains the
+eigenvalues and the columns of $U = U^{(0)} U^{(1)} \cdots U^{(k-1)}$ are the orthonormal
+eigenvectors.
+
+\subsection{Results}
+
+The program reads $n$, the matrix $A$ and the precision $\varepsilon$ and prints the error after
+every rotation, the eigenvalues and the eigenvectors.
+
+\needspace{10\baselineskip}
+\lstinputlisting[style=console, caption={tests/data/rotation/01.in}]{../tests/data/rotation/01.in}
+\lstinputlisting[style=console, caption={tests/data/rotation/01.out}]{../tests/data/rotation/01.out}
+
+The unit tests check $A x_i = \lambda_i x_i$ and $U^T U = E$ on random symmetric matrices up to
+$7 \times 7$.
+
+\subsection{Analysis}
+
+A rotation preserves the Frobenius norm and moves the weight of the element $a_{ij}$ to the
+diagonal, so $t^2(A^{(k+1)}) = t^2(A^{(k)}) - \bigl(a_{ij}^{(k)}\bigr)^2$ and the error decreases
+monotonically (the first step of the table removes $a_{23} = -7$: $9.434^2 - 6.325^2 = 49$).
+Since the largest of the $n(n-1)/2$ elements is chosen, $a_{ij}^2 \ge \frac{2}{n(n-1)} t^2$, and
+the convergence is at least linear:
+
+\[
+t\bigl(A^{(k)}\bigr) \le \Bigl(1 - \frac{2}{n(n-1)}\Bigr)^{k/2} t\bigl(A^{(0)}\bigr).
+\]
+
+For $n = 3$ the guaranteed factor is $\sqrt{2/3} \approx 0.82$ per rotation, but the table shows
+a faster decrease. The first four rotations reduce the error by 1.5--2.7 times, and then the
+convergence becomes quadratic:
+$4.9 \cdot 10^{-2} \to 3.3 \cdot 10^{-3} \to 2.1 \cdot 10^{-5} \to 3.4 \cdot 10^{-9}$,
+the number of correct digits roughly doubles with every rotation. That is why 8 rotations are
+enough for $\varepsilon = 10^{-6}$, and a higher precision costs only one or two extra rotations.
+
+\subsection{Source code}
+
+\lstinputlisting[caption={include/rotation.hpp}]{../include/rotation.hpp}
+\lstinputlisting[caption={src/rotation.cpp}]{../src/rotation.cpp}
+
+\pagebreak

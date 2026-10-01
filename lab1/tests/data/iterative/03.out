@@ -1,0 +1,5 @@
+||alpha|| = 1.0000
+A priori estimate: none
+Simple iteration: no convergence after 100000 iterations
+Seidel: 11 iterations
+x = (1.0000, 1.0000, 1.0000)

@@ -1,0 +1,27 @@
+{
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.arguments": [
+    "--compile-commands-dir=build/debug",
+    "--header-insertion=never"
+  ],
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": false,
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "davidanson.vscode-markdownlint"
+  },
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/report/%DOCFILE%",
+  "latex-workshop.latex.recipe.default": "latexmk",
+  "markdownlint.config": {
+    "extends": "${workspaceFolder}/.config/.markdownlint.yaml"
+  }
+}
