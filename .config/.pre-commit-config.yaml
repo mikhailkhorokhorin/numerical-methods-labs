@@ -38,8 +38,10 @@ repos:
     rev: 4.3.0
     hooks:
       - id: sqlfluff-fix
+        args: [--config, .config/.sqlfluff]
         exclude: /tests/
       - id: sqlfluff-lint
+        args: [--config, .config/.sqlfluff]
         exclude: /tests/
   - repo: local
     hooks:
