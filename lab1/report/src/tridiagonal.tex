@@ -42,8 +42,8 @@ The program reads $n$, the sub-diagonal $a_2, \ldots, a_n$, the diagonal $b_1, \
 the super-diagonal $c_1, \ldots, c_{n-1}$ and the right-hand side $d_1, \ldots, d_n$.
 
 \needspace{10\baselineskip}
-\lstinputlisting[style=console, caption={tests/data/tridiagonal/01.in}]{../tests/data/tridiagonal/01.in}
-\lstinputlisting[style=console, caption={tests/data/tridiagonal/01.out}]{../tests/data/tridiagonal/01.out}
+\lstinputlisting[style=console, caption={task2/input.txt}]{../task2/input.txt}
+\lstinputlisting[style=console, caption={task2/output.txt}]{../task2/output.txt}
 
 The solution is $x = (0, 3, 9, -3, -8)^T$. The matrix of the variant is diagonally dominant, the
 second row turns the condition into an equality: $|-13| = |8| + |-5|$. The unit tests compare the
@@ -51,7 +51,7 @@ Thomas algorithm with the LU decomposition on random systems up to $12 \times 12
 
 \subsection{Source code}
 
-\lstinputlisting[caption={include/tridiagonal.hpp}]{../include/tridiagonal.hpp}
-\lstinputlisting[caption={src/tridiagonal.cpp}]{../src/tridiagonal.cpp}
+\lstinputlisting[caption={task2/tridiagonal.py}]{../task2/tridiagonal.py}
+\lstinputlisting[caption={task2/main.py}]{../task2/main.py}
 
 \pagebreak

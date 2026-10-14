@@ -1,0 +1,28 @@
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+cache-dir = "build/.ruff_cache"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "ANN", "SIM", "C4", "PT", "RUF"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["."]
+exclude = ["^build/"]
+explicit_package_bases = true
+cache_dir = "build/.mypy_cache"
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib", "-p", "no:cacheprovider"]
+pythonpath = ["."]
+testpaths = ["lab*"]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["*/tests/*"]
+data_file = "build/.coverage"
+
+[tool.coverage.report]
+skip_empty = true

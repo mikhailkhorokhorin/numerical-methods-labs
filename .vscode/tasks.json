@@ -10,39 +10,26 @@
       ]
     },
     {
-      "id": "app",
+      "id": "task",
       "type": "pickString",
-      "description": "Executable",
+      "description": "Task",
       "options": [
-        "lu",
-        "tridiagonal",
-        "iterative",
-        "rotation",
-        "qr"
+        "all",
+        "task1",
+        "task2",
+        "task3",
+        "task4",
+        "task5"
       ],
-      "default": "lu"
+      "default": "all"
     }
   ],
   "tasks": [
     {
-      "label": "Build",
-      "type": "shell",
-      "command": "make build LAB=${input:lab}",
-      "problemMatcher": [
-        "$gcc"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
       "label": "Test",
       "type": "shell",
       "command": "make test LAB=${input:lab}",
-      "problemMatcher": [
-        "$gcc"
-      ],
+      "problemMatcher": [],
       "group": {
         "kind": "test",
         "isDefault": true
@@ -51,42 +38,38 @@
     {
       "label": "Run",
       "type": "shell",
-      "command": "make run LAB=${input:lab} APP=${input:app}",
-      "problemMatcher": [
-        "$gcc"
-      ]
+      "command": "make run LAB=${input:lab} TASK=${input:task}",
+      "problemMatcher": []
     },
     {
       "label": "Format",
       "type": "shell",
       "command": "make format",
-      "problemMatcher": [
-        "$gcc"
-      ]
+      "problemMatcher": []
     },
     {
       "label": "Lint",
       "type": "shell",
       "command": "make lint",
-      "problemMatcher": [
-        "$gcc"
-      ]
+      "problemMatcher": []
     },
     {
       "label": "Coverage",
       "type": "shell",
       "command": "make coverage",
-      "problemMatcher": [
-        "$gcc"
-      ]
+      "problemMatcher": []
+    },
+    {
+      "label": "Report",
+      "type": "shell",
+      "command": "make report LAB=${input:lab}",
+      "problemMatcher": []
     },
     {
       "label": "CI",
       "type": "shell",
       "command": "make ci",
-      "problemMatcher": [
-        "$gcc"
-      ]
+      "problemMatcher": []
     }
   ]
 }

@@ -2,55 +2,101 @@
 
 ## Task
 
-Five programs for variant 28 built on one shared matrix library:
+Variant 28. Every task lives in its own folder:
 
-| App | Method | Result |
-| --- | --- | --- |
-| `lu` | LU decomposition with partial pivoting | solution of $Ax = b$, $\det A$, $A^{-1}$ |
-| `tridiagonal` | Thomas algorithm | solution of a tridiagonal system |
-| `iterative` | simple iteration and Seidel methods | solution with precision $\varepsilon$, iteration counts |
-| `rotation` | Jacobi rotation method | eigenvalues and eigenvectors of a symmetric matrix, error per rotation |
-| `qr` | QR algorithm with Householder reflections | real and complex eigenvalues of an arbitrary matrix |
+| No. | Folder | Method | Result |
+| --- | --- | --- | --- |
+| 1.1 | [task1](task1/) | LU decomposition with partial pivoting | solution of $Ax = b$, $\det A$, $A^{-1}$ |
+| 1.2 | [task2](task2/) | Thomas algorithm | solution of a tridiagonal system |
+| 1.3 | [task3](task3/) | simple iteration and Seidel methods | solution with precision $\varepsilon$, iterations depending on $\varepsilon$ |
+| 1.4 | [task4](task4/) | Jacobi rotation method | eigenvalues and eigenvectors of a symmetric matrix, error after every rotation |
+| 1.5 | [task5](task5/) | QR algorithm with Householder reflections | eigenvalues of an arbitrary matrix, iterations depending on $\varepsilon$ |
 
-The statement of the variant, the theory and the analysis are in [report/report.pdf](report/report.pdf) (LaTeX sources in [report/](report/), rebuilt with `make report LAB=lab1`).
+The theory and the analysis are in [report/report.pdf](report/report.pdf) (sources in [report/](report/), rebuilt with `make report LAB=lab1`).
 
-## Build and run
+## Run
 
 ```bash
-make run LAB=lab1 APP=lu < lab1/tests/data/lu/01.in
-make run LAB=lab1 APP=tridiagonal < lab1/tests/data/tridiagonal/01.in
-make run LAB=lab1 APP=iterative < lab1/tests/data/iterative/01.in
-make run LAB=lab1 APP=rotation < lab1/tests/data/rotation/01.in
-make run LAB=lab1 APP=qr < lab1/tests/data/qr/01.in
+make run LAB=lab1
+make run LAB=lab1 TASK=task3
+make run LAB=lab1 TASK=task3 ARGS=my_input.txt
+make test LAB=lab1
 ```
 
-## Example
+The first command runs all five tasks, the second one task on its `input.txt`, the third one task on another file. Without `make`: `python3 -m lab1.main` and `python3 -m lab1.task3.main [file]` from the repository root.
 
-Input of `iterative`: the size $n$, the matrix $A$, the vector $b$ and the precision $\varepsilon$.
+## Structure
 
 ```text
-4
-10 0 2 4
-2 16 -3 8
-1 5 11 -4
-8 1 6 -17
-110 128 102 81
-0.0001
+lab1/
+  README.md
+  main.py        runs all five tasks
+  common.py      input reading, matrix operations, output formatting
+  task1/
+    main.py      reads input.txt (or the given file), solves the task, prints the result
+    lu.py        the method
+    input.txt    data of the variant
+    output.txt   expected output, checked by the tests
+  task2/ ... task5/   the same layout
+  tests/         tests of every method, of common.py and of all programs
+  report/        LaTeX report
 ```
 
-Output:
+## Input
 
-```text
-||alpha|| = 0.9091
-A priori estimate: 146 iterations
-Simple iteration: 22 iterations
-x = (9.0000, 7.0000, 6.0000, 2.0000)
-Seidel: 12 iterations
-x = (9.0000, 7.0000, 6.0000, 2.0000)
-```
+Numbers separated by spaces or new lines:
 
-## Notes
+| Task | Input |
+| --- | --- |
+| task1 | $n$, matrix $A$, vector $b$ |
+| task2 | $n$, sub-diagonal $a_2..a_n$, diagonal $b_1..b_n$, super-diagonal $c_1..c_{n-1}$, right-hand side $d$ |
+| task3 | $n$, matrix $A$, vector $b$, precision $\varepsilon$ |
+| task4 | $n$, symmetric matrix $A$, precision $\varepsilon$ |
+| task5 | $n$, matrix $A$, precision $\varepsilon$ |
 
-- Input is whitespace-separated. `lu`: $n$, $A$, $b$. `tridiagonal`: $n$, the sub-diagonal ($n - 1$), the diagonal ($n$), the super-diagonal ($n - 1$), the right-hand side ($n$). `rotation` and `qr`: $n$, $A$, $\varepsilon$.
-- Numbers must lie in $[-10^{100}, 10^{100}]$. Invalid input, a matrix that is singular to working precision (pivot below $10^{-12} \|A\|_\infty$), a non-symmetric matrix for `rotation` or a non-convergent method print `error: <message>` to stderr and exit with code 1. `iterative` fails only if neither method converges; otherwise it reports the failed method as `no convergence after N iterations`.
-- `qr` reports a pair of complex eigenvalues once the $2 \times 2$ diagonal block is isolated and its eigenvalues change by at most $\varepsilon$ between iterations.
+Invalid input or a failed method prints `error: <message>` and exits with code 1.
+
+## Variant 28
+
+1.1:
+$$
+\begin{cases}
+x_1 + 4x_2 - 9x_3 + 7x_4 = -67 \\
+2x_1 - 2x_2 - 2x_3 + 3x_4 = -57 \\
+-x_1 + 3x_2 - 9x_3 - x_4 = -26 \\
+-5x_1 + 2x_2 + 2x_3 + x_4 = 52
+\end{cases}
+\qquad x = (-5, 9, 7, -5), \quad \det A = 935
+$$
+
+1.2:
+$$
+\begin{cases}
+16x_1 - 9x_2 = -27 \\
+8x_1 - 13x_2 - 5x_3 = -84 \\
+-3x_2 - 21x_3 + 9x_4 = -225 \\
+-9x_3 + 16x_4 - 5x_5 = -89 \\
+x_4 - 9x_5 = 69
+\end{cases}
+\qquad x = (0, 3, 9, -3, -8)
+$$
+
+1.3, $\varepsilon = 10^{-4}$:
+$$
+\begin{cases}
+10x_1 + 2x_3 + 4x_4 = 110 \\
+2x_1 + 16x_2 - 3x_3 + 8x_4 = 128 \\
+x_1 + 5x_2 + 11x_3 - 4x_4 = 102 \\
+8x_1 + x_2 + 6x_3 - 17x_4 = 81
+\end{cases}
+\qquad x = (9, 7, 6, 2)
+$$
+
+1.4 and 1.5, $\varepsilon = 10^{-6}$:
+$$
+A_{1.4} = \begin{pmatrix} 3 & 2 & 6 \\ 2 & -3 & -7 \\ 6 & -7 & 3 \end{pmatrix}, \quad
+\lambda \approx -9.7068,\ 2.4775,\ 10.2293
+\qquad
+A_{1.5} = \begin{pmatrix} -6 & -3 & 7 \\ 9 & 1 & -6 \\ 3 & -5 & 5 \end{pmatrix}, \quad
+\lambda \approx -7.3888,\ -0.0545,\ 7.4433
+$$

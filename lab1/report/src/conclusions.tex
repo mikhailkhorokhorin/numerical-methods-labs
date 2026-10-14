@@ -16,8 +16,10 @@ while the a priori estimate turned out to be about 7 times too pessimistic.
 
 The rotation method finds the complete eigensystem of a symmetric matrix: the error decreases
 monotonically and at the end converges quadratically. The QR algorithm with Householder
-reflections works for arbitrary matrices and finds complex eigenvalues as $2 \times 2$ blocks;
-its rate depends on the ratio of the moduli of the eigenvalues.
+reflections works for arbitrary matrices; its rate depends on the ratios of the moduli of the
+eigenvalues. In the variant two eigenvalues have almost equal moduli, and a full
+triangularization would take 2482 iterations, while treating them as a $2 \times 2$ block (the
+same way as a complex pair) gives the answer in 5 iterations.
 
 All results were verified by unit tests on random matrices (residuals, orthogonality, trace and
 determinant) and by end-to-end tests of the programs.

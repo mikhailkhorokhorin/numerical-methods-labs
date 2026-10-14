@@ -1,22 +1,30 @@
-\section{Common code}
+\section{Program structure}
 
-All five programs share the library \texttt{lab1\_core}. The class \texttt{Matrix} stores a dense
-matrix in a single vector in row-major order and provides the products and the norms. The module
-\texttt{io} reads the input with strict validation (the size from 1 to 1000, every number in
-$[-10^{100}, 10^{100}]$ so that norms and products cannot overflow, and the absence of trailing
-data) and formats numbers with four digits after the decimal point. The module
-\texttt{cli} contains one function per program; it reads the whole input, computes the result and
-only then prints it, so an error never leaves a partial output. Errors are written to the standard
-error stream as \texttt{error: <message>} with the exit code 1. Every executable in \texttt{app/}
-consists of a single call:
+The programs are written in Python 3.13 with the standard library only: every method is
+implemented from scratch, without NumPy. Every task has its own folder \texttt{task1},
+\ldots, \texttt{task5} with the same files:
 
-\lstinputlisting[caption={app/lu.cpp}]{../app/lu.cpp}
+\begin{itemize}
+    \item the module of the method (\texttt{lu.py}, \texttt{tridiagonal.py}, \texttt{iterative.py},
+    \texttt{rotation.py}, \texttt{qr.py});
+    \item \texttt{main.py}, which reads \texttt{input.txt} next to it (or the file given as an
+    argument), solves the task and prints the result: \texttt{python3 -m lab1.task3.main};
+    \item \texttt{input.txt} with the data of the variant and \texttt{output.txt} with the expected
+    output, which the tests compare with the actual one.
+\end{itemize}
 
-\lstinputlisting[caption={include/matrix.hpp}]{../include/matrix.hpp}
-\lstinputlisting[caption={src/matrix.cpp}]{../src/matrix.cpp}
-\lstinputlisting[caption={include/io.hpp}]{../include/io.hpp}
-\lstinputlisting[caption={src/io.cpp}]{../src/io.cpp}
-\lstinputlisting[caption={include/cli.hpp}]{../include/cli.hpp}
-\lstinputlisting[caption={src/cli.cpp}]{../src/cli.cpp}
+The file \texttt{lab1/main.py} runs all five tasks one after another. All tests are in the folder
+\texttt{lab1/tests}: one file per method, the tests of \texttt{common.py} and the tests that run
+every program and compare its output with \texttt{output.txt}. The shared module
+\texttt{common.py} contains the matrix operations (a matrix is a list of rows, a vector is a list
+of numbers), the class \texttt{InputReader} that reads the size, the numbers and the precision
+from the input file, the output formatting with four digits after the decimal point and the
+function \texttt{run}. It computes the whole result before printing it, so an error never leaves a
+partial output; errors are printed as \texttt{error: <message>} with the exit code 1. All sums are
+accumulated in explicit loops: the built-in \texttt{sum} uses compensated summation since
+Python 3.12 and would change the last bits of the results.
+
+\lstinputlisting[caption={main.py}]{../main.py}
+\lstinputlisting[caption={common.py}]{../common.py}
 
 \pagebreak

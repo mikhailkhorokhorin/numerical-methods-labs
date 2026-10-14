@@ -46,15 +46,15 @@ The program reads $n$, the matrix $A$ and the vector $b$ and prints $P$ as the o
 $A$, the factors $L$ and $U$, the solution, the determinant and the inverse matrix.
 
 \needspace{10\baselineskip}
-\lstinputlisting[style=console, caption={tests/data/lu/01.in}]{../tests/data/lu/01.in}
-\lstinputlisting[style=console, caption={tests/data/lu/01.out}]{../tests/data/lu/01.out}
+\lstinputlisting[style=console, caption={task1/input.txt}]{../task1/input.txt}
+\lstinputlisting[style=console, caption={task1/output.txt}]{../task1/output.txt}
 
 The solution is $x = (-5, 9, 7, -5)^T$ and $\det A = 935$. The unit tests check $LU = PA$,
 $|l_{ik}| \le 1$ and $AA^{-1} = E$ on random matrices up to $8 \times 8$.
 
 \subsection{Source code}
 
-\lstinputlisting[caption={include/lu.hpp}]{../include/lu.hpp}
-\lstinputlisting[caption={src/lu.cpp}]{../src/lu.cpp}
+\lstinputlisting[caption={task1/lu.py}]{../task1/lu.py}
+\lstinputlisting[caption={task1/main.py}]{../task1/main.py}
 
 \pagebreak

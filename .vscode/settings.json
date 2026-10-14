@@ -1,20 +1,17 @@
 {
-  "C_Cpp.intelliSenseEngine": "disabled",
-  "clangd.arguments": [
-    "--compile-commands-dir=build/debug",
-    "--header-insertion=never"
-  ],
-  "cmake.useCMakePresets": "always",
-  "cmake.configureOnOpen": false,
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "mypy-type-checker.importStrategy": "fromEnvironment",
   "editor.formatOnSave": true,
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "[cpp]": {
-    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
-  },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
   },
   "[markdown]": {
     "editor.defaultFormatter": "davidanson.vscode-markdownlint"
@@ -23,5 +20,8 @@
   "latex-workshop.latex.recipe.default": "latexmk",
   "markdownlint.config": {
     "extends": "${workspaceFolder}/.config/.markdownlint.yaml"
+  },
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "${workspaceFolder}"
   }
 }

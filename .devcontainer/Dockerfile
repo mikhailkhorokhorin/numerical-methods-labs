@@ -4,19 +4,12 @@ ARG INSTALL_LATEX=false
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        build-essential \
-        cmake \
-        ninja-build \
-        gdb \
-        valgrind \
-        strace \
-        clang-format \
-        clang-tidy \
-        clangd \
-        gcovr \
-        libgtest-dev \
+        make \
         python3 \
         python3-venv \
+        python3-pytest \
+        python3-pytest-cov \
+        mypy \
         pre-commit \
         nodejs \
         npm \

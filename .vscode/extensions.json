@@ -1,11 +1,10 @@
 {
   "recommendations": [
     "ms-vscode-remote.remote-containers",
-    "llvm-vs-code-extensions.vscode-clangd",
-    "ms-vscode.cmake-tools",
-    "ms-vscode.cpptools",
+    "ms-python.python",
+    "ms-python.mypy-type-checker",
+    "charliermarsh.ruff",
     "editorconfig.editorconfig",
-    "davidanson.vscode-markdownlint",
-    "charliermarsh.ruff"
+    "davidanson.vscode-markdownlint"
   ]
 }

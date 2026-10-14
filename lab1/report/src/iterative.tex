@@ -52,11 +52,13 @@ reports this for each method separately and fails only if neither method converg
 
 \subsection{Results}
 
-The program reads $n$, the matrix $A$, the vector $b$ and the precision $\varepsilon$.
+The program reads $n$, the matrix $A$, the vector $b$ and the precision $\varepsilon$, solves the
+system by both methods and then repeats the solution for $\varepsilon = 10^{-1}, \ldots, 10^{-10}$
+to show how the number of iterations depends on the precision.
 
 \needspace{10\baselineskip}
-\lstinputlisting[style=console, caption={tests/data/iterative/01.in}]{../tests/data/iterative/01.in}
-\lstinputlisting[style=console, caption={tests/data/iterative/01.out}]{../tests/data/iterative/01.out}
+\lstinputlisting[style=console, caption={task3/input.txt}]{../task3/input.txt}
+\lstinputlisting[style=console, caption={task3/output.txt}]{../task3/output.txt}
 
 The exact solution is $x = (9, 7, 6, 2)^T$. The matrix is diagonally dominant and
 $\|\alpha\|_\infty = 10/11 \approx 0.9091$, so both methods converge.
@@ -107,14 +109,13 @@ useful to guarantee termination, while the a posteriori criterion stops the proc
 The condition $\|\alpha\| < 1$ is only sufficient. For the matrix with ones on the diagonal and
 $0.5$ elsewhere $\|\alpha\|_\infty = \rho(\alpha) = 1$: the error along $(1, 1, 1)^T$ changes its
 sign at every step and the simple iteration never converges, while the Seidel method converges,
-because the matrix is symmetric and positive definite.
-
-\needspace{8\baselineskip}
-\lstinputlisting[style=console, caption={tests/data/iterative/03.out}]{../tests/data/iterative/03.out}
+because the matrix is symmetric and positive definite. In this case the program reports
+\texttt{no convergence} for the simple iteration and prints the solution found by the Seidel
+method.
 
 \subsection{Source code}
 
-\lstinputlisting[caption={include/iterative.hpp}]{../include/iterative.hpp}
-\lstinputlisting[caption={src/iterative.cpp}]{../src/iterative.cpp}
+\lstinputlisting[caption={task3/iterative.py}]{../task3/iterative.py}
+\lstinputlisting[caption={task3/main.py}]{../task3/main.py}
 
 \pagebreak

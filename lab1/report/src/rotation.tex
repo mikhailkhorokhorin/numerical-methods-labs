@@ -41,12 +41,12 @@ eigenvectors.
 
 \subsection{Results}
 
-The program reads $n$, the matrix $A$ and the precision $\varepsilon$ and prints the error after
-every rotation, the eigenvalues and the eigenvectors.
+The program reads $n$, the matrix $A$ and the precision $\varepsilon$ and prints the eigenvalues,
+the eigenvectors and the error after every rotation.
 
 \needspace{10\baselineskip}
-\lstinputlisting[style=console, caption={tests/data/rotation/01.in}]{../tests/data/rotation/01.in}
-\lstinputlisting[style=console, caption={tests/data/rotation/01.out}]{../tests/data/rotation/01.out}
+\lstinputlisting[style=console, caption={task4/input.txt}]{../task4/input.txt}
+\lstinputlisting[style=console, caption={task4/output.txt}]{../task4/output.txt}
 
 The unit tests check $A x_i = \lambda_i x_i$ and $U^T U = E$ on random symmetric matrices up to
 $7 \times 7$.
@@ -72,7 +72,7 @@ enough for $\varepsilon = 10^{-6}$, and a higher precision costs only one or two
 
 \subsection{Source code}
 
-\lstinputlisting[caption={include/rotation.hpp}]{../include/rotation.hpp}
-\lstinputlisting[caption={src/rotation.cpp}]{../src/rotation.cpp}
+\lstinputlisting[caption={task4/rotation.py}]{../task4/rotation.py}
+\lstinputlisting[caption={task4/main.py}]{../task4/main.py}
 
 \pagebreak

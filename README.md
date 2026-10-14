@@ -1,6 +1,6 @@
 # Numerical Methods Labs
 
-C++20 laboratory works for the Numerical Methods course with GoogleTest tests and LaTeX reports.
+Python 3.13 laboratory works for the Numerical Methods course with pytest tests and LaTeX reports. Every method is implemented from scratch with the standard library only.
 
 | No. | Topic |
 | --- | --- |
