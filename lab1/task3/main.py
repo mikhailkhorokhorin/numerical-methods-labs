@@ -7,6 +7,7 @@ from lab1.common import (
     Vector,
     format_number,
     format_vector,
+    iterations_text,
     matrix_norm_inf,
     run,
 )
@@ -24,8 +25,11 @@ PRECISIONS = [10.0**-power for power in range(1, 11)]
 
 def _result_lines(name: str, result: IterationResult) -> list[str]:
     if not result.converged:
-        return [f"{name}: no convergence after {result.iterations} iterations"]
-    return [f"{name}: {result.iterations} iterations", f"x = {format_vector(result.solution)}"]
+        return [f"{name}: no convergence after {iterations_text(result.iterations)}"]
+    return [
+        f"{name}: {iterations_text(result.iterations)}",
+        f"x = {format_vector(result.solution)}",
+    ]
 
 
 def _count(result: IterationResult) -> str:
@@ -33,13 +37,16 @@ def _count(result: IterationResult) -> str:
 
 
 def _analysis(matrix: Matrix, rhs: Vector) -> list[str]:
-    lines = ["Iterations depending on the precision:", "    eps  a priori  simple  Seidel"]
+    lines = [
+        "Iterations depending on the precision:",
+        f"{'eps':>7}  {'a priori':>8}  {'simple':>7}  {'Seidel':>7}",
+    ]
     for eps in PRECISIONS:
         estimate = apriori_iterations(matrix, rhs, eps)
         jacobi = _count(simple_iteration(matrix, rhs, eps))
         gauss_seidel = _count(seidel(matrix, rhs, eps))
         bound = "-" if estimate is None else str(estimate)
-        lines.append(f"{eps:7.0e}  {bound:>8}  {jacobi:>6}  {gauss_seidel:>6}")
+        lines.append(f"{eps:7.0e}  {bound:>8}  {jacobi:>7}  {gauss_seidel:>7}")
     return lines
 
 
@@ -59,7 +66,7 @@ def task(reader: InputReader) -> list[str]:
 
     return [
         f"||alpha|| = {format_number(matrix_norm_inf(form.alpha))}",
-        f"A priori estimate: {'none' if estimate is None else f'{estimate} iterations'}",
+        f"A priori estimate: {'none' if estimate is None else iterations_text(estimate)}",
         *_result_lines("Simple iteration", jacobi),
         *_result_lines("Seidel", gauss_seidel),
         "",

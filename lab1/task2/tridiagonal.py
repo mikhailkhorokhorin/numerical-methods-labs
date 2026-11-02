@@ -30,6 +30,7 @@ def _upper_at(system: TridiagonalSystem, row: int) -> float:
 def solve_tridiagonal(system: TridiagonalSystem) -> Vector:
     _validate(system)
     n = len(system.diagonal)
+
     scale = 0.0
     for i in range(n):
         scale = max(

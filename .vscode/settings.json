@@ -16,8 +16,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "davidanson.vscode-markdownlint"
   },
-  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/report/%DOCFILE%",
-  "latex-workshop.latex.recipe.default": "latexmk",
   "markdownlint.config": {
     "extends": "${workspaceFolder}/.config/.markdownlint.yaml"
   },

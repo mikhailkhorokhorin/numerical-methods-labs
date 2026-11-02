@@ -60,12 +60,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Report",
-      "type": "shell",
-      "command": "make report LAB=${input:lab}",
-      "problemMatcher": []
-    },
-    {
       "label": "CI",
       "type": "shell",
       "command": "make ci",

@@ -168,6 +168,10 @@ def format_matrix(matrix: Matrix) -> list[str]:
 Task = Callable[[InputReader], list[str]]
 
 
+def iterations_text(count: int) -> str:
+    return f"{count} iteration" if count == 1 else f"{count} iterations"
+
+
 def solve_file(task: Task, path: Path) -> list[str]:
     return task(InputReader(path.read_text(encoding="utf-8")))
 
@@ -176,8 +180,16 @@ def run(task: Task, default_input: Path, args: list[str]) -> int:
     path = Path(args[0]) if args else default_input
     try:
         lines = solve_file(task, path)
-    except (OSError, ValueError, ArithmeticError, RuntimeError) as error:
-        print(f"error: {error}", file=sys.stderr)
-        return 1
-    print("\n".join(lines))
-    return 0
+    except FileNotFoundError:
+        message = f"file not found: {path}"
+    except OSError as error:
+        message = f"cannot read {path}: {error.strerror}"
+    except ArithmeticError:
+        message = "arithmetic error (division by zero or overflow)"
+    except (ValueError, RuntimeError) as error:
+        message = str(error)
+    else:
+        print("\n".join(lines))
+        return 0
+    print(f"error: {message}", file=sys.stderr)
+    return 1

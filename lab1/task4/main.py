@@ -16,6 +16,7 @@ def task(reader: InputReader) -> list[str]:
     eigen = rotation_method(matrix, eps)
 
     return [
+        "Eigenvalues and eigenvectors:",
         *(
             f"lambda_{i + 1} = {format_number(value)}, "
             f"x_{i + 1} = {format_vector(column(eigen.vectors, i))}"

@@ -5,7 +5,6 @@ cache-dir = "build/.ruff_cache"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "ANN", "SIM", "C4", "PT", "RUF"]
-
 [tool.mypy]
 python_version = "3.13"
 strict = true

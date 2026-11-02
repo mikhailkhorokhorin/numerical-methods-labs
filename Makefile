@@ -2,11 +2,17 @@ LAB ?=
 TASK ?=
 ARGS ?=
 COVERAGE_MIN ?= 80
+ifeq ($(OS),Windows_NT)
+PYTHON ?= python
+else
 PYTHON ?= python3
+endif
 
 CI_EXTRA :=
 
 PRE_COMMIT_CONFIG := .config/.pre-commit-config.yaml
+MKDIR = $(PYTHON) -c "import pathlib, sys; [pathlib.Path(p).mkdir(parents=True, exist_ok=True) for p in sys.argv[1:]]"
+RMDIR = $(PYTHON) -c "import shutil, sys; [shutil.rmtree(p, ignore_errors=True) for p in sys.argv[1:]]"
 
 export PYTHONPYCACHEPREFIX := $(CURDIR)/build/pycache
 
@@ -32,7 +38,7 @@ test:
 	$(PYTHON) -m pytest $(LAB)
 
 run:
-	@test -n "$(LAB)" || (echo "LAB is required" >&2; exit 2)
+	@$(if $(LAB),,$(error LAB is required: make run LAB=lab1))
 	@$(PYTHON) -m $(LAB).$(if $(filter-out all,$(TASK)),$(TASK).)main $(ARGS)
 
 format:
@@ -46,11 +52,11 @@ typecheck:
 	$(PYTHON) -m mypy
 
 coverage:
-	mkdir -p build/artifacts/coverage
+	$(MKDIR) build/artifacts/coverage
 	$(PYTHON) -m pytest --cov --cov-report=term-missing \
 		--cov-report=html:build/artifacts/coverage --cov-fail-under=$(COVERAGE_MIN)
 
 ci: lint coverage $(CI_EXTRA)
 
 clean:
-	rm -rf build
+	$(RMDIR) build

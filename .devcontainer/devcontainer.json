@@ -1,10 +1,7 @@
 {
-  "name": "Python Labs with LaTeX",
+  "name": "Python Labs",
   "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "INSTALL_LATEX": "true"
-    }
+    "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
   "customizations": {
@@ -14,8 +11,7 @@
         "ms-python.mypy-type-checker",
         "charliermarsh.ruff",
         "editorconfig.editorconfig",
-        "davidanson.vscode-markdownlint",
-        "james-yu.latex-workshop"
+        "davidanson.vscode-markdownlint"
       ]
     }
   }

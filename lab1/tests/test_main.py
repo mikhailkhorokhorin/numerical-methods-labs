@@ -14,6 +14,7 @@ def run_module(module: str, *args: str) -> tuple[int, str, str]:
         [sys.executable, "-m", module, *args],
         capture_output=True,
         text=True,
+        encoding="utf-8",
         cwd=LAB_DIR.parent,
         check=False,
     )

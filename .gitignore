@@ -12,6 +12,7 @@ massif.out.*
 valgrind*.txt
 gprof*.txt
 **/benchmark/tests*.txt
+**/report/*.pdf
 **/report/*.aux
 **/report/*.log
 **/report/*.out

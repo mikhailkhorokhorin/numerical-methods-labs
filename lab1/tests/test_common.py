@@ -150,4 +150,4 @@ def test_run_reports_errors(tmp_path: Path, capsys: pytest.CaptureFixture[str]) 
     assert run(double, path, []) == 1
     assert capsys.readouterr() == ("", "error: expected a number, got 'x'\n")
     assert run(double, tmp_path / "missing.txt", []) == 1
-    assert "error: " in capsys.readouterr().err
+    assert "error: file not found" in capsys.readouterr().err

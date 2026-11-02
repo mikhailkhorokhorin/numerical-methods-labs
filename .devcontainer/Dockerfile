@@ -1,7 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/base:trixie
 
-ARG INSTALL_LATEX=false
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         make \
@@ -13,15 +11,5 @@ RUN apt-get update \
         pre-commit \
         nodejs \
         npm \
-    && if [ "$INSTALL_LATEX" = "true" ]; then \
-        apt-get install -y --no-install-recommends \
-            texlive-latex-base \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            lmodern \
-            latexmk \
-            chktex; \
-    fi \
     && rm -rf /var/lib/apt/lists/* \
     && git config --system --add safe.directory '*'

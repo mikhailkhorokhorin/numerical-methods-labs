@@ -23,11 +23,12 @@ def task(reader: InputReader) -> list[str]:
         "R =",
         *format_matrix(qr.r),
         "",
+        "Eigenvalues:",
         *(f"lambda_{i + 1} = {format_complex(value)}" for i, value in enumerate(eigen.values)),
         f"Iterations: {eigen.iterations}",
         "",
         "Iterations depending on the precision:",
-        "    eps  iterations",
+        f"{'eps':>7}  {'iterations':>10}",
         *(f"{value:7.0e}  {qr_algorithm(matrix, value).iterations:>10}" for value in PRECISIONS),
     ]
 

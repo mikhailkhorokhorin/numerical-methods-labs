@@ -12,8 +12,6 @@ Variant 28. Every task lives in its own folder:
 | 1.4 | [task4](task4/) | Jacobi rotation method | eigenvalues and eigenvectors of a symmetric matrix, error after every rotation |
 | 1.5 | [task5](task5/) | QR algorithm with Householder reflections | eigenvalues of an arbitrary matrix, iterations depending on $\varepsilon$ |
 
-The theory and the analysis are in [report/report.pdf](report/report.pdf) (sources in [report/](report/), rebuilt with `make report LAB=lab1`).
-
 ## Build and run
 
 ```bash
@@ -88,7 +86,7 @@ Input: numbers separated by spaces or new lines.
 | task4 | $n$, symmetric matrix $A$, precision $\varepsilon$ |
 | task5 | $n$, matrix $A$, precision $\varepsilon$ |
 
-Invalid input or a failed method prints `error: <message>` and exits with code 1.
+Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.
 
 Layout:
 
@@ -104,5 +102,4 @@ lab1/
     output.txt   expected output, checked by the tests
   task2/ ... task5/   the same layout
   tests/         tests of every method, of common.py and of all programs
-  report/        LaTeX report
 ```
