@@ -94,7 +94,7 @@ Layout:
 lab1/
   README.md
   main.py        runs all five tasks
-  common.py      input reading, matrix operations, output formatting
+  common.py      input reading, matrix operations, formatting and graphs shared by all labs
   task1/
     main.py      reads input.txt (or the given file), solves the task, prints the result
     lu.py        the method

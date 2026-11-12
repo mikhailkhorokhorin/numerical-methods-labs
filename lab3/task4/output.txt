@@ -1,0 +1,4 @@
+Left difference:   y'(0.4000) = 0.9492
+Right difference:  y'(0.4000) = 2.0864
+Second order:      y'(0.4000) = 1.5178
+Second derivative: y''(0.4000) = 5.6859

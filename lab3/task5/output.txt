@@ -1,0 +1,5 @@
+Exact value: 701.2851
+      method     h = 1   h = 0.5    estimate       error   refined  refined error
+  Rectangles  680.0351  695.9508  5.3052e+00  5.3343e+00  701.2560     2.9098e-02
+  Trapezoids  743.8848  711.9600  1.0642e+01  1.0675e+01  701.3184     3.3246e-02
+     Simpson  701.8193  701.3184  3.3395e-02  3.3246e-02  701.2850     1.4951e-04
