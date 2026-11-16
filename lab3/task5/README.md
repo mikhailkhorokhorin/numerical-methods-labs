@@ -34,7 +34,7 @@ make run LAB=lab3 TASK=task5 ARGS=my_input.txt
 python3 -m lab3.task5.main [file]
 ```
 
-Commands run from the repository root. Without an argument the program reads `input.txt` next to `main.py`.
+Commands run from the repository root. Without an argument the program reads `input.txt` next to `main.py`. Every run also saves the graphs next to the input file.
 
 ## Input
 
@@ -69,13 +69,20 @@ The exact value, then for every method: the integrals with both steps, the Runge
 - The Runge-Romberg estimates almost coincide with the real errors.
 - Simpson's rule with $h = 0.5$ equals the refined trapezoid value: Simpson's formula is exactly the Runge-Romberg refinement of the trapezoid rule.
 
+## Graphs
+
+`plot.svg`: the integrand and the trapezoids with the step $h_1$: the function is convex, so the trapezoids lie above it and overestimate the integral.
+
+![plot.svg](plot.svg)
+
 ## Files
 
 | File | Contents |
 | --- | --- |
-| [main.py](main.py) | the variant: reads the input, prints the result |
+| [main.py](main.py) | the variant: reads the input, prints the result, saves the graphs |
 | [integration.py](integration.py) | the three rules and the Runge-Romberg method |
 | [input.txt](input.txt) | data of the variant |
 | [output.txt](output.txt) | expected output, checked by the tests |
+| [plot.svg](plot.svg) | graph of the variant, checked by the tests |
 
 Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.

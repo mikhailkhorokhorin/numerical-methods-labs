@@ -84,9 +84,13 @@ For each set of nodes: a table with $\omega'(x_i)$, the Lagrange coefficients $y
 
 ## Graphs
 
-`plot.svg`: the function and both interpolation polynomials with their nodes.
+`plot.svg`: the function, both interpolation polynomials, their nodes and the point $X^*$.
 
 ![plot.svg](plot.svg)
+
+`plot_error.svg`: the interpolation error $y(x) - L(x)$ for both sets of nodes: zero at the nodes, largest between them; at $X^*$ the error of the set b) is twice as large.
+
+![plot_error.svg](plot_error.svg)
 
 ## Files
 
@@ -97,5 +101,6 @@ For each set of nodes: a table with $\omega'(x_i)$, the Lagrange coefficients $y
 | [input.txt](input.txt) | data of the variant |
 | [output.txt](output.txt) | expected output, checked by the tests |
 | [plot.svg](plot.svg) | graph of the variant, checked by the tests |
+| [plot_error.svg](plot_error.svg) | graph of the variant, checked by the tests |
 
 Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.

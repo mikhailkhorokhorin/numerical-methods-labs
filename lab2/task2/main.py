@@ -133,6 +133,8 @@ def figure(reader: InputReader) -> str:
             _rectangle("region G", region),
             Series("solution", [solution[0]], [solution[1]], markers=True),
         ],
+        "x1",
+        "x2",
     )
 
 
@@ -162,6 +164,8 @@ def figure_zoom(reader: InputReader) -> str:
             ),
             Series("solution", [solution[0]], [solution[1]], markers=True),
         ],
+        "x1",
+        "x2",
     )
 
 

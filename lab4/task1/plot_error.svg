@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="480" viewBox="0 0 880 480" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">
+<rect width="880" height="480" fill="#ffffff"/>
+<text x="365.00" y="30.00" text-anchor="middle" font-size="16">Error, h = 0.1</text>
+<line x1="70.00" y1="50.00" x2="70.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="70.00" y="450.00" text-anchor="middle" font-size="13">1.0</text>
+<line x1="188.00" y1="50.00" x2="188.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="188.00" y="450.00" text-anchor="middle" font-size="13">1.2</text>
+<line x1="306.00" y1="50.00" x2="306.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="306.00" y="450.00" text-anchor="middle" font-size="13">1.4</text>
+<line x1="424.00" y1="50.00" x2="424.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="424.00" y="450.00" text-anchor="middle" font-size="13">1.6</text>
+<line x1="542.00" y1="50.00" x2="542.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="542.00" y="450.00" text-anchor="middle" font-size="13">1.8</text>
+<line x1="660.00" y1="50.00" x2="660.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="660.00" y="450.00" text-anchor="middle" font-size="13">2.0</text>
+<line x1="70.00" y1="430.00" x2="660.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="434.00" text-anchor="end" font-size="13">1e-06</text>
+<line x1="70.00" y1="366.67" x2="660.00" y2="366.67" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="370.67" text-anchor="end" font-size="13">1e-05</text>
+<line x1="70.00" y1="303.33" x2="660.00" y2="303.33" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="307.33" text-anchor="end" font-size="13">1e-04</text>
+<line x1="70.00" y1="240.00" x2="660.00" y2="240.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="244.00" text-anchor="end" font-size="13">1e-03</text>
+<line x1="70.00" y1="176.67" x2="660.00" y2="176.67" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="180.67" text-anchor="end" font-size="13">1e-02</text>
+<line x1="70.00" y1="113.33" x2="660.00" y2="113.33" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="117.33" text-anchor="end" font-size="13">1e-01</text>
+<line x1="70.00" y1="50.00" x2="660.00" y2="50.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="54.00" text-anchor="end" font-size="13">1e+00</text>
+<text x="365.00" y="472.00" text-anchor="middle" font-size="13">x</text>
+<text x="18" y="240.00" text-anchor="middle" font-size="13" transform="rotate(-90 18 240.00)">|y - y_exact|</text>
+<rect x="70.00" y="50.00" width="590.00" height="380.00" fill="none" stroke="#6b7280"/>
+<polyline points="129.00,151.11 188.00,131.03 247.00,119.16 306.00,110.78 365.00,104.41 424.00,99.38 483.00,95.34 542.00,92.09 601.00,89.48 660.00,87.43" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round"/>
+<line x1="682.00" y1="62.00" x2="706.00" y2="62.00" stroke="#2563eb" stroke-width="2"/>
+<text x="714.00" y="66.00" text-anchor="start" font-size="13">Euler</text>
+<polyline points="129.00,391.73 188.00,371.47 247.00,359.06 306.00,349.86 365.00,342.42 424.00,336.10 483.00,330.56 542.00,325.59 601.00,321.08 660.00,316.93" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/>
+<line x1="682.00" y1="86.00" x2="706.00" y2="86.00" stroke="#dc2626" stroke-width="2"/>
+<text x="714.00" y="90.00" text-anchor="start" font-size="13">Runge-Kutta</text>
+<polyline points="129.00,391.73 188.00,371.47 247.00,359.06 306.00,372.08 365.00,367.60 424.00,355.95 483.00,344.30 542.00,332.33 601.00,321.97 660.00,313.13" fill="none" stroke="#16a34a" stroke-width="2" stroke-linejoin="round"/>
+<line x1="682.00" y1="110.00" x2="706.00" y2="110.00" stroke="#16a34a" stroke-width="2"/>
+<text x="714.00" y="114.00" text-anchor="start" font-size="13">Adams</text>
+</svg>

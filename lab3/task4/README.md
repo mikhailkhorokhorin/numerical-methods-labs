@@ -34,7 +34,7 @@ make run LAB=lab3 TASK=task4 ARGS=my_input.txt
 python3 -m lab3.task4.main [file]
 ```
 
-Commands run from the repository root. Without an argument the program reads `input.txt` next to `main.py`.
+Commands run from the repository root. Without an argument the program reads `input.txt` next to `main.py`. Every run also saves the graphs next to the input file.
 
 ## Input
 
@@ -58,13 +58,20 @@ Second derivative: y''(0.4000) = 5.6859
 
 The left and right differences, the second-order first derivative and the second derivative.
 
+## Graphs
+
+`plot.svg`: the table points and the lines through $(X^*, y(X^*))$ with the slopes given by the three formulas: the left one is too flat, the right one too steep, the second-order one lies between them.
+
+![plot.svg](plot.svg)
+
 ## Files
 
 | File | Contents |
 | --- | --- |
-| [main.py](main.py) | the variant: reads the input, prints the result |
+| [main.py](main.py) | the variant: reads the input, prints the result, saves the graphs |
 | [derivative.py](derivative.py) | one-sided, second-order and second-derivative formulas |
 | [input.txt](input.txt) | data of the variant |
 | [output.txt](output.txt) | expected output, checked by the tests |
+| [plot.svg](plot.svg) | graph of the variant, checked by the tests |
 
 Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.

@@ -65,7 +65,7 @@ The coefficients $a_i, b_i, c_i, d_i$ of every segment and the value $S(X^*)$.
 
 ## Graphs
 
-`plot.svg`: the spline, the nodes and the point $X^*$.
+`plot.svg`: every segment of the spline in its own color, the nodes and the value $S(X^*)$; the segments join without kinks.
 
 ![plot.svg](plot.svg)
 

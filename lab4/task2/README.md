@@ -93,6 +93,10 @@ The secant iterations of the shooting method, a table of both solutions and the 
 
 ![plot.svg](plot.svg)
 
+`plot_error.svg`: the error at the inner nodes on a logarithmic scale: shooting is about 20 times more accurate.
+
+![plot_error.svg](plot_error.svg)
+
 ## Files
 
 | File | Contents |
@@ -102,5 +106,6 @@ The secant iterations of the shooting method, a table of both solutions and the 
 | [input.txt](input.txt) | data of the variant |
 | [output.txt](output.txt) | expected output, checked by the tests |
 | [plot.svg](plot.svg) | graph of the variant, checked by the tests |
+| [plot_error.svg](plot_error.svg) | graph of the variant, checked by the tests |
 
 Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.

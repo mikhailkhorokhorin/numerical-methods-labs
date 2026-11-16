@@ -106,6 +106,8 @@ def figure(reader: InputReader) -> str:
             Series(f"interval [{a:g}, {b:g}]", [a, b], [], band=True),
             Series("root", [root], [0.0], markers=True),
         ],
+        "x",
+        "f(x)",
     )
 
 

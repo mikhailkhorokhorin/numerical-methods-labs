@@ -10,7 +10,7 @@ from lab1.tests.support import (
 )
 from lab3.common import evaluate
 from lab3.task1.interpolation import lagrange, newton, omega_derivative
-from lab3.task1.main import INPUT, figure, function, task
+from lab3.task1.main import ERROR_NAME, INPUT, figure, figure_error, function, task
 
 NODES = [0.0, math.pi / 6.0, math.pi / 3.0, math.pi / 2.0]
 CUBIC = [2.0, -1.0, 0.5, 3.0]
@@ -68,6 +68,7 @@ def test_rejects_invalid_nodes() -> None:
 def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
     assert_expected_plot(figure, INPUT)
+    assert_expected_plot(figure_error, INPUT, ERROR_NAME)
 
 
 @pytest.mark.parametrize(

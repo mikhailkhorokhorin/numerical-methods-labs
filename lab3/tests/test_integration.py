@@ -2,9 +2,9 @@ import math
 
 import pytest
 
-from lab1.tests.support import assert_expected_output, assert_task_error
+from lab1.tests.support import assert_expected_output, assert_expected_plot, assert_task_error
 from lab3.task5.integration import METHODS, rectangles, runge_romberg, simpson, trapezoids
-from lab3.task5.main import INPUT, antiderivative, function, task
+from lab3.task5.main import INPUT, antiderivative, figure, function, task
 
 
 def test_antiderivative_matches_the_function() -> None:
@@ -50,8 +50,9 @@ def test_rejects_invalid_steps() -> None:
         runge_romberg(1.0, 2.0, 1.0, 2)
 
 
-def test_task_prints_the_expected_output() -> None:
+def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
+    assert_expected_plot(figure, INPUT)
 
 
 @pytest.mark.parametrize(

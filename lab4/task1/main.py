@@ -73,14 +73,27 @@ def task(reader: InputReader) -> list[str]:
 def figure(reader: InputReader) -> str:
     problem, h = read(reader)
     grid = linspace(problem.start, problem.end, 201)
-    series = [Series("exact", grid, [exact(x) for x in grid])]
+    series = [Series("exact: y = 5x + x^2 + x^2 ln|x|", grid, [exact(x) for x in grid])]
     for name, method, _ in METHODS:
         solution = method(problem, h)
         series.append(Series(name, solution.xs, solution.component(0), markers=True))
-    return chart("x^2 y'' - 3x y' + 4y - 5x = 0", series)
+    return chart("x^2 y'' - 3x y' + 4y - 5x = 0, y(1) = 6, y'(1) = 8", series, "x", "y")
 
 
-FIGURES = {PLOT_NAME: figure}
+def figure_error(reader: InputReader) -> str:
+    problem, h = read(reader)
+    series = []
+    for name, method, _ in METHODS:
+        solution = method(problem, h)
+        errors = [
+            abs(y - exact(x)) for x, y in zip(solution.xs, solution.component(0), strict=True)
+        ]
+        series.append(Series(name, solution.xs[1:], errors[1:]))
+    return chart(f"Error, h = {h:g}", series, "x", "|y - y_exact|", log_y=True)
+
+
+ERROR_NAME = "plot_error.svg"
+FIGURES = {PLOT_NAME: figure, ERROR_NAME: figure_error}
 
 
 if __name__ == "__main__":

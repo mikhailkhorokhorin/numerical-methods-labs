@@ -2,9 +2,10 @@ import math
 
 import pytest
 
-from lab1.tests.support import assert_expected_output, assert_task_error
+from lab1.common import InputReader
+from lab1.tests.support import assert_expected_output, assert_expected_plot, assert_task_error
 from lab3.task4.derivative import derivatives
-from lab3.task4.main import INPUT, task
+from lab3.task4.main import INPUT, figure, task
 
 XS = [0.0, 0.2, 0.4, 0.6, 0.8]
 YS = [0.0, 0.048856, 0.23869, 0.65596, 1.4243]
@@ -50,8 +51,15 @@ def test_rejects_invalid_tables_and_points() -> None:
         derivatives(XS, YS, 1.0)
 
 
-def test_task_prints_the_expected_output() -> None:
+def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
+    assert_expected_plot(figure, INPUT)
+
+
+def test_plot_draws_slopes_through_a_point_between_nodes() -> None:
+    svg = figure(InputReader("3 0 1 2 0 1 4 0.5"))
+    assert "Derivative at X* = 0.5" in svg
+    assert "second order: y&#x27; = 1.0000" in svg
 
 
 @pytest.mark.parametrize(

@@ -89,6 +89,10 @@ A table of $y$ for the three methods and the exact solution, then the Runge-Romb
 
 ![plot.svg](plot.svg)
 
+`plot_error.svg`: the error $|y_k - y(x_k)|$ along the segment on a logarithmic scale: the Euler method is three to four orders of magnitude worse.
+
+![plot_error.svg](plot_error.svg)
+
 ## Files
 
 | File | Contents |
@@ -98,5 +102,6 @@ A table of $y$ for the three methods and the exact solution, then the Runge-Romb
 | [input.txt](input.txt) | data of the variant |
 | [output.txt](output.txt) | expected output, checked by the tests |
 | [plot.svg](plot.svg) | graph of the variant, checked by the tests |
+| [plot_error.svg](plot_error.svg) | graph of the variant, checked by the tests |
 
 Invalid input or a failed method prints `error: <message>` to stderr and exits with code 1.

@@ -3,7 +3,7 @@ import math
 import operator
 import sys
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from html import escape
 from pathlib import Path
 
@@ -282,6 +282,7 @@ def _segments(series: Series) -> list[list[tuple[float, float]]]:
 class _Frame:
     x_ticks: Vector
     y_ticks: Vector
+    log_y: bool = False
 
     def x(self, value: float) -> float:
         low, high = self.x_ticks[0], self.x_ticks[-1]
@@ -322,8 +323,35 @@ def _axes(frame: _Frame) -> list[str]:
         parts.append(_text(x, BOTTOM + 20, _tick_label(tick, frame.x_ticks), "middle"))
     for tick in frame.y_ticks:
         y = frame.y(tick)
-        parts.append(_line(LEFT, y, RIGHT, y, _grid_color(tick)))
-        parts.append(_text(LEFT - 8, y + 4, _tick_label(tick, frame.y_ticks), "end"))
+        color = "#e5e7eb" if frame.log_y else _grid_color(tick)
+        label = f"1e{tick:+03.0f}" if frame.log_y else _tick_label(tick, frame.y_ticks)
+        parts.append(_line(LEFT, y, RIGHT, y, color))
+        parts.append(_text(LEFT - 8, y + 4, label, "end"))
+    return parts
+
+
+def _log_ticks(low: float, high: float) -> Vector:
+    step = max(1, math.ceil((high - low) / 8))
+    first = math.floor(low / step)
+    last = math.ceil(high / step)
+    if first == last:
+        first, last = first - 1, last + 1
+    return [float(k * step) for k in range(first, last + 1)]
+
+
+def _log10(value: float) -> float:
+    return math.log10(value) if value > 0.0 else math.nan
+
+
+def _axis_labels(x_label: str, y_label: str) -> list[str]:
+    parts = []
+    if x_label:
+        parts.append(_text((LEFT + RIGHT) / 2, BOTTOM + 42, x_label, "middle"))
+    if y_label:
+        parts.append(
+            f'<text x="18" y="{(TOP + BOTTOM) / 2:.2f}" text-anchor="middle" font-size="13" '
+            f'transform="rotate(-90 18 {(TOP + BOTTOM) / 2:.2f})">{escape(y_label)}</text>'
+        )
     return parts
 
 
@@ -366,7 +394,11 @@ def _series(index: int, series: Series, frame: _Frame, radius: float) -> list[st
     return parts
 
 
-def chart(title: str, series: list[Series]) -> str:
+def chart(
+    title: str, series: list[Series], x_label: str = "", y_label: str = "", log_y: bool = False
+) -> str:
+    if log_y:
+        series = [replace(item, ys=[_log10(y) for y in item.ys]) for item in series]
     points = [
         point
         for item in series
@@ -379,7 +411,8 @@ def chart(title: str, series: list[Series]) -> str:
     xs = [x for x, _ in points] + [x for item in series if item.band for x in item.xs]
     ys = [y for _, y in points]
     margin = 0.05 * (max(ys) - min(ys))
-    frame = _Frame(_ticks(min(xs), max(xs)), _ticks(min(ys) - margin, max(ys) + margin))
+    y_ticks = _log_ticks(min(ys), max(ys)) if log_y else _ticks(min(ys) - margin, max(ys) + margin)
+    frame = _Frame(_ticks(min(xs), max(xs)), y_ticks, log_y)
     label = max(len(item.label) for item in series)
     width = max(CHART_WIDTH, math.ceil(RIGHT + 70 + LEGEND_CHAR_WIDTH * label))
     parts = [
@@ -389,6 +422,7 @@ def chart(title: str, series: list[Series]) -> str:
         f'<rect width="{width}" height="{CHART_HEIGHT}" fill="#ffffff"/>',
         _text((LEFT + RIGHT) / 2, 30, title, "middle", 16),
         *_axes(frame),
+        *_axis_labels(x_label, y_label),
         f'<rect x="{LEFT:.2f}" y="{TOP:.2f}" width="{RIGHT - LEFT:.2f}" '
         f'height="{BOTTOM - TOP:.2f}" fill="none" stroke="#6b7280"/>',
     ]

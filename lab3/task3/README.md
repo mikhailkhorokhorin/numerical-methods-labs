@@ -63,7 +63,7 @@ For degrees 1 and 2: the normal system (the matrix and, after `|`, the right-han
 
 ## Graphs
 
-`plot.svg`: the table points and both approximating polynomials.
+`plot.svg`: the table points and both approximating polynomials with their sums of squared errors.
 
 ![plot.svg](plot.svg)
 

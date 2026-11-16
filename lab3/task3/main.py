@@ -54,8 +54,17 @@ def figure(reader: InputReader) -> str:
     series = []
     for degree in DEGREES:
         approximation = least_squares(xs, ys, degree)
-        series.append(Series(f"F_{degree}(x)", grid, [approximation(x) for x in grid]))
-    return chart("Least squares approximation", [*series, Series("table", xs, ys, markers=True)])
+        label = (
+            f"F_{degree}(x) = {format_polynomial(approximation.coefficients)}, "
+            f"Phi = {format_number(approximation.squared_error)}"
+        )
+        series.append(Series(label, grid, [approximation(x) for x in grid]))
+    return chart(
+        "Least squares approximation",
+        [*series, Series("table", xs, ys, markers=True)],
+        "x",
+        "y",
+    )
 
 
 FIGURES = {PLOT_NAME: figure}

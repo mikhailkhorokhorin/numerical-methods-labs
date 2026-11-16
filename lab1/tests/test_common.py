@@ -258,6 +258,18 @@ def test_fills_areas_and_widens_for_long_legends() -> None:
     assert 'width="1150"' in wide
 
 
+def test_draws_axis_labels_and_logarithmic_scales() -> None:
+    svg = chart("log", [Series("e", [1.0, 2.0, 3.0], [1e-1, 0.0, 1e-4])], "x", "error", log_y=True)
+    assert ">x</text>" in svg
+    assert 'transform="rotate(-90' in svg
+    assert ">1e-04</text>" in svg
+    assert ">1e-01</text>" in svg
+    assert svg.count("<polyline") == 2
+    flat = chart("flat", [Series("c", [0.0, 1.0], [0.01, 0.01])], log_y=True)
+    assert ">1e-03</text>" in flat
+    assert ">1e-01</text>" in flat
+
+
 def test_rejects_empty_charts() -> None:
     with pytest.raises(ValueError, match="nothing to plot"):
         chart("empty", [Series("nan", [0.0], [math.nan])])

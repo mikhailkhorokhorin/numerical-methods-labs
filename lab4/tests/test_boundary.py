@@ -17,7 +17,7 @@ from lab4.task2.boundary import (
     finite_difference,
     shooting,
 )
-from lab4.task2.main import INPUT, exact, f, figure, p, q, task
+from lab4.task2.main import ERROR_NAME, INPUT, exact, f, figure, figure_error, p, q, task
 
 VARIANT = BoundaryProblem(
     p, q, f, 0.0, 1.0, Condition(0.0, 1.0, 2.0), Condition(1.0, 0.0, math.e**2)
@@ -118,6 +118,7 @@ def test_shooting_reports_a_stalled_secant(monkeypatch: pytest.MonkeyPatch) -> N
 def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
     assert_expected_plot(figure, INPUT)
+    assert_expected_plot(figure_error, INPUT, ERROR_NAME)
 
 
 @pytest.mark.parametrize(

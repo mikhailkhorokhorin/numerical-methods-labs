@@ -1,4 +1,5 @@
 import sys
+from itertools import pairwise
 from pathlib import Path
 
 from lab1.common import (
@@ -45,14 +46,20 @@ def task(reader: InputReader) -> list[str]:
 def figure(reader: InputReader) -> str:
     xs, ys, point = read(reader)
     spline = natural_spline(xs, ys)
-    grid = linspace(xs[0], xs[-1], 201)
+    series = []
+    for i, (left, right) in enumerate(pairwise(xs), start=1):
+        grid = linspace(left, right, 51)
+        series.append(Series(f"S_{i}(x) on [{left:g}, {right:g}]", grid, [spline(x) for x in grid]))
+    value = spline(point)
     return chart(
         "Natural cubic spline",
         [
-            Series("S(x)", grid, [spline(x) for x in grid]),
+            *series,
             Series("nodes", xs, ys, markers=True),
-            Series("X*", [point], [spline(point)], markers=True),
+            Series(f"S({point:g}) = {format_number(value)}", [point], [value], markers=True),
         ],
+        "x",
+        "S(x)",
     )
 
 

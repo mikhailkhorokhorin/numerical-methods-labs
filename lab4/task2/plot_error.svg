@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="480" viewBox="0 0 880 480" font-family="Helvetica, Arial, sans-serif" fill="#1f2937">
+<rect width="880" height="480" fill="#ffffff"/>
+<text x="365.00" y="30.00" text-anchor="middle" font-size="16">Error at the inner nodes, h = 0.1</text>
+<line x1="70.00" y1="50.00" x2="70.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="70.00" y="450.00" text-anchor="middle" font-size="13">0.1</text>
+<line x1="143.75" y1="50.00" x2="143.75" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="143.75" y="450.00" text-anchor="middle" font-size="13">0.2</text>
+<line x1="217.50" y1="50.00" x2="217.50" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="217.50" y="450.00" text-anchor="middle" font-size="13">0.3</text>
+<line x1="291.25" y1="50.00" x2="291.25" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="291.25" y="450.00" text-anchor="middle" font-size="13">0.4</text>
+<line x1="365.00" y1="50.00" x2="365.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="365.00" y="450.00" text-anchor="middle" font-size="13">0.5</text>
+<line x1="438.75" y1="50.00" x2="438.75" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="438.75" y="450.00" text-anchor="middle" font-size="13">0.6</text>
+<line x1="512.50" y1="50.00" x2="512.50" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="512.50" y="450.00" text-anchor="middle" font-size="13">0.7</text>
+<line x1="586.25" y1="50.00" x2="586.25" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="586.25" y="450.00" text-anchor="middle" font-size="13">0.8</text>
+<line x1="660.00" y1="50.00" x2="660.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="660.00" y="450.00" text-anchor="middle" font-size="13">0.9</text>
+<line x1="70.00" y1="430.00" x2="660.00" y2="430.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="434.00" text-anchor="end" font-size="13">1e-04</text>
+<line x1="70.00" y1="303.33" x2="660.00" y2="303.33" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="307.33" text-anchor="end" font-size="13">1e-03</text>
+<line x1="70.00" y1="176.67" x2="660.00" y2="176.67" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="180.67" text-anchor="end" font-size="13">1e-02</text>
+<line x1="70.00" y1="50.00" x2="660.00" y2="50.00" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62.00" y="54.00" text-anchor="end" font-size="13">1e-01</text>
+<text x="365.00" y="472.00" text-anchor="middle" font-size="13">x</text>
+<text x="18" y="240.00" text-anchor="middle" font-size="13" transform="rotate(-90 18 240.00)">|y - y_exact|</text>
+<rect x="70.00" y="50.00" width="590.00" height="380.00" fill="none" stroke="#6b7280"/>
+<polyline points="70.00,396.31 143.75,372.88 217.50,343.18 291.25,334.14 365.00,311.19 438.75,304.20 512.50,286.57 586.25,300.18 660.00,329.88" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round"/>
+<line x1="682.00" y1="62.00" x2="706.00" y2="62.00" stroke="#2563eb" stroke-width="2"/>
+<text x="714.00" y="66.00" text-anchor="start" font-size="13">shooting</text>
+<polyline points="70.00,123.56 143.75,121.37 217.50,121.67 291.25,124.34 365.00,129.60 438.75,138.08 512.50,151.06 586.25,171.55 660.00,209.06" fill="none" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/>
+<line x1="682.00" y1="86.00" x2="706.00" y2="86.00" stroke="#dc2626" stroke-width="2"/>
+<text x="714.00" y="90.00" text-anchor="start" font-size="13">finite difference</text>
+</svg>

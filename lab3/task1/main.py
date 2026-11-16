@@ -15,7 +15,7 @@ from lab1.common import (
     run,
 )
 from lab3.common import format_polynomial
-from lab3.task1.interpolation import lagrange, newton, omega_derivative
+from lab3.task1.interpolation import Lagrange, lagrange, newton, omega_derivative
 
 INPUT = Path(__file__).with_name("input.txt")
 LABELS = ("a", "b")
@@ -67,20 +67,39 @@ def task(reader: InputReader) -> list[str]:
     return lines
 
 
-def figure(reader: InputReader) -> str:
-    node_sets, point = read(reader)
+def _curves(node_sets: list[Vector], point: float) -> tuple[Vector, list[Lagrange]]:
     every = [x for xs in node_sets for x in xs] + [point]
     grid = linspace(min(every), max(every), 161)
+    return grid, [lagrange(xs, [function(x) for x in xs]) for xs in node_sets]
+
+
+def figure(reader: InputReader) -> str:
+    node_sets, point = read(reader)
+    grid, polynomials = _curves(node_sets, point)
     series = [Series("y = x cos(x)", grid, [function(x) for x in grid])]
-    for label, xs in zip(LABELS, node_sets, strict=True):
-        polynomial = lagrange(xs, [function(x) for x in xs])
+    for label, polynomial in zip(LABELS, polynomials, strict=True):
         series.append(Series(f"L(x), nodes {label})", grid, [polynomial(x) for x in grid]))
     for label, xs in zip(LABELS, node_sets, strict=True):
         series.append(Series(f"nodes {label})", xs, [function(x) for x in xs], markers=True))
-    return chart("Lagrange interpolation of y = x cos(x)", series)
+    series.append(Series(f"X* = {format_number(point)}", [point], [function(point)], markers=True))
+    return chart("Interpolation of y = x cos(x)", series, "x", "y")
 
 
-FIGURES = {PLOT_NAME: figure}
+def figure_error(reader: InputReader) -> str:
+    node_sets, point = read(reader)
+    grid, polynomials = _curves(node_sets, point)
+    series = [
+        Series(f"y(x) - L(x), nodes {label})", grid, [function(x) - polynomial(x) for x in grid])
+        for label, polynomial in zip(LABELS, polynomials, strict=True)
+    ]
+    for label, xs in zip(LABELS, node_sets, strict=True):
+        series.append(Series(f"nodes {label})", xs, [0.0] * len(xs), markers=True))
+    series.append(Series(f"X* = {format_number(point)}", [point, point], [], band=True))
+    return chart("Interpolation error", series, "x", "y(x) - L(x)")
+
+
+ERROR_NAME = "plot_error.svg"
+FIGURES = {PLOT_NAME: figure, ERROR_NAME: figure_error}
 
 
 if __name__ == "__main__":

@@ -98,16 +98,33 @@ def figure(reader: InputReader) -> str:
     shot, difference = solve(problem, h, eps)
     grid = linspace(problem.left, problem.right, 201)
     return chart(
-        "x y'' - (2x + 1) y' + 2y = 0",
+        "x y'' - (2x + 1) y' + 2y = 0, y'(0) = 2, y(1) = e^2",
         [
-            Series("exact", grid, [exact(x) for x in grid]),
+            Series("exact: y = e^(2x)", grid, [exact(x) for x in grid]),
             Series("shooting", shot.solution.xs, shot.solution.ys, markers=True),
             Series("finite difference", difference.xs, difference.ys, markers=True),
         ],
+        "x",
+        "y",
     )
 
 
-FIGURES = {PLOT_NAME: figure}
+def figure_error(reader: InputReader) -> str:
+    problem, h, eps = read(reader)
+    shot, difference = solve(problem, h, eps)
+    series = [
+        Series(
+            name,
+            solution.xs[1:-1],
+            [abs(y - exact(x)) for x, y in zip(solution.xs, solution.ys, strict=True)][1:-1],
+        )
+        for name, solution in (("shooting", shot.solution), ("finite difference", difference))
+    ]
+    return chart(f"Error at the inner nodes, h = {h:g}", series, "x", "|y - y_exact|", log_y=True)
+
+
+ERROR_NAME = "plot_error.svg"
+FIGURES = {PLOT_NAME: figure, ERROR_NAME: figure_error}
 
 
 if __name__ == "__main__":

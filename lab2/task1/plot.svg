@@ -31,6 +31,8 @@
 <text x="62.00" y="130.00" text-anchor="end" font-size="13">1</text>
 <line x1="70.00" y1="50.00" x2="660.00" y2="50.00" stroke="#e5e7eb" stroke-width="1"/>
 <text x="62.00" y="54.00" text-anchor="end" font-size="13">2</text>
+<text x="365.00" y="472.00" text-anchor="middle" font-size="13">x</text>
+<text x="18" y="240.00" text-anchor="middle" font-size="13" transform="rotate(-90 18 240.00)">f(x)</text>
 <rect x="70.00" y="50.00" width="590.00" height="380.00" fill="none" stroke="#6b7280"/>
 <rect x="438.75" y="50.00" width="184.38" height="380.00" fill="#dc2626" fill-opacity="0.15"/>
 <line x1="438.75" y1="50.00" x2="438.75" y2="430.00" stroke="#dc2626" stroke-width="2"/>

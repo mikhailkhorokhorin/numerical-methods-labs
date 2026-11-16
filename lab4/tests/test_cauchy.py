@@ -5,7 +5,7 @@ import pytest
 from lab1.common import Vector
 from lab1.tests.support import assert_expected_output, assert_expected_plot, assert_task_error
 from lab4.task1.cauchy import CauchyProblem, Method, adams, euler, runge_kutta
-from lab4.task1.main import INPUT, METHODS, exact, figure, rhs, task
+from lab4.task1.main import ERROR_NAME, INPUT, METHODS, exact, figure, figure_error, rhs, task
 
 VARIANT = CauchyProblem(rhs, 1.0, 2.0, [6.0, 8.0])
 
@@ -85,6 +85,7 @@ def test_rejects_steps_that_do_not_divide_the_segment() -> None:
 def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
     assert_expected_plot(figure, INPUT)
+    assert_expected_plot(figure_error, INPUT, ERROR_NAME)
 
 
 @pytest.mark.parametrize(
