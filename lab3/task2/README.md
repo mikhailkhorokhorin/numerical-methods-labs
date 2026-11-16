@@ -1,7 +1,5 @@
 # 3.2. Cubic Spline
 
-[Lab 3](../README.md) / 3.2
-
 Builds a smooth piecewise cubic curve through the table points and evaluates it at a given point.
 
 ## Task

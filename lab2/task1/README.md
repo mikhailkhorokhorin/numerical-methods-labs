@@ -1,7 +1,5 @@
 # 2.1. Simple Iteration and Newton Methods for an Equation
 
-[Lab 2](../README.md) / 2.1
-
 Finds the positive root of a nonlinear equation with a given precision and compares the linear and quadratic convergence of the two methods.
 
 ## Task

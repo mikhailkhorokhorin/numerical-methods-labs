@@ -1,7 +1,5 @@
 # 4.1. Cauchy Problem
 
-[Lab 4](../README.md) / 4.1
-
 Solves an initial value problem for a second-order equation with methods of order 1 and 4 and estimates their errors.
 
 ## Task

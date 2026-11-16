@@ -1,7 +1,5 @@
 # 3.4. Numerical Differentiation
 
-[Lab 3](../README.md) / 3.4
-
 Computes the first and second derivatives of a tabulated function with formulas of the first and second order.
 
 ## Task

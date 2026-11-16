@@ -1,7 +1,5 @@
 # 1.3. Simple Iteration and Seidel Methods
 
-[Lab 1](../README.md) / 1.3
-
 Solves a linear system iteratively with a given precision and compares how many iterations the two methods need.
 
 ## Task

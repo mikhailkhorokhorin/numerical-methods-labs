@@ -1,7 +1,5 @@
 # 4.2. Boundary Value Problem
 
-[Lab 4](../README.md) / 4.2
-
 Solves a boundary value problem with a singular point by the shooting and finite difference methods and estimates their errors.
 
 ## Task

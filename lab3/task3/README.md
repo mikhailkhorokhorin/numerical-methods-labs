@@ -1,7 +1,5 @@
 # 3.3. Least Squares
 
-[Lab 3](../README.md) / 3.3
-
 Fits a line and a parabola to the table points so that the sum of squared errors is minimal.
 
 ## Task

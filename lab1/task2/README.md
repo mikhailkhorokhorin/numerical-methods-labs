@@ -1,7 +1,5 @@
 # 1.2. Thomas Algorithm
 
-[Lab 1](../README.md) / 1.2
-
 Solves a linear system with a tridiagonal matrix in $O(n)$ operations, storing only the three diagonals.
 
 ## Task

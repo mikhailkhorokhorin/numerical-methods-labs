@@ -1,7 +1,5 @@
 # 3.1. Lagrange and Newton Interpolation
 
-[Lab 3](../README.md) / 3.1
-
 Builds the interpolation polynomial through four points in two forms and measures its error between the nodes.
 
 ## Task

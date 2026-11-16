@@ -1,7 +1,5 @@
 # 1.4. Jacobi Rotation Method
 
-[Lab 1](../README.md) / 1.4
-
 Finds all eigenvalues and eigenvectors of a symmetric matrix by zeroing off-diagonal elements with plane rotations.
 
 ## Task

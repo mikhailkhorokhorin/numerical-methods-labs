@@ -1,7 +1,5 @@
 # 2.2. Simple Iteration and Newton Methods for a System
 
-[Lab 2](../README.md) / 2.2
-
 Finds the positive solution of a system of two nonlinear equations with a given precision; the initial approximation comes from the graph.
 
 ## Task

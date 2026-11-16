@@ -1,7 +1,5 @@
 # 3.5. Numerical Integration
 
-[Lab 3](../README.md) / 3.5
-
 Computes a definite integral with three quadrature rules and estimates their errors by the Runge-Romberg method.
 
 ## Task

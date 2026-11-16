@@ -1,7 +1,5 @@
 # 1.1. LU Decomposition
 
-[Lab 1](../README.md) / 1.1
-
 Solves a linear system through the factorization $PA = LU$ and reuses the factors for the determinant and the inverse matrix.
 
 ## Task

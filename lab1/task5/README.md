@@ -1,7 +1,5 @@
 # 1.5. QR Algorithm
 
-[Lab 1](../README.md) / 1.5
-
 Finds all eigenvalues of an arbitrary matrix, including complex ones, by repeated QR decompositions.
 
 ## Task
