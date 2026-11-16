@@ -1,10 +1,6 @@
 build/
 coverage/
 .cache/
-bin/
-obj/
-.ionide/
-*.qlf
 .venv/
 __pycache__/
 gmon.out
@@ -12,11 +8,5 @@ massif.out.*
 valgrind*.txt
 gprof*.txt
 **/benchmark/tests*.txt
-**/report/*.pdf
-**/report/*.aux
-**/report/*.log
-**/report/*.out
-**/report/*.toc
-**/report/*.fls
-**/report/*.fdb_latexmk
-**/report/*.synctex.gz
+**/report/
+.config/private.mk
