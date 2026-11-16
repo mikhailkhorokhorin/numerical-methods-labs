@@ -71,8 +71,8 @@ def run_module(module: str, *args: str) -> tuple[int, str, str]:
     return result.returncode, result.stdout, result.stderr
 
 
-def assert_expected_plot(figure: Figure, input_path: Path) -> None:
-    expected = input_path.with_name(PLOT_NAME).read_text(encoding="utf-8")
+def assert_expected_plot(figure: Figure, input_path: Path, name: str = PLOT_NAME) -> None:
+    expected = input_path.with_name(name).read_text(encoding="utf-8")
     assert figure(InputReader(input_path.read_text(encoding="utf-8"))) == expected
 
 
@@ -81,12 +81,11 @@ def assert_program_output(module: str, task_dir: Path, tmp_path: Path) -> None:
     shutil.copy(task_dir / "input.txt", input_path)
     expected = (task_dir / "output.txt").read_text(encoding="utf-8")
     assert run_module(module, str(input_path)) == (0, expected, "")
-    committed = task_dir / PLOT_NAME
-    written = tmp_path / PLOT_NAME
-    if committed.exists():
-        assert written.read_text(encoding="utf-8") == committed.read_text(encoding="utf-8")
-    else:
-        assert not written.exists()
+    committed = sorted(path.name for path in task_dir.glob("*.svg"))
+    assert sorted(path.name for path in tmp_path.glob("*.svg")) == committed
+    for name in committed:
+        written = (tmp_path / name).read_text(encoding="utf-8")
+        assert written == (task_dir / name).read_text(encoding="utf-8")
 
 
 def assert_lab_output(

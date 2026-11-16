@@ -22,8 +22,8 @@ def main() -> int:
         if index > 0:
             print()
         print(f"Task {number}. {title}")
-        figure = getattr(module, "figure", None)
-        status = max(status, run(module.task, module.INPUT, [], figure))
+        figures = getattr(module, "FIGURES", None)
+        status = max(status, run(module.task, module.INPUT, [], figures))
     return status
 
 

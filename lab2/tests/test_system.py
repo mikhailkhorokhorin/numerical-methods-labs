@@ -8,7 +8,16 @@ from lab1.tests.support import (
     assert_vector_near,
 )
 from lab2.task2 import system as module
-from lab2.task2.main import INPUT, figure, first_curve, second_curve, system, task
+from lab2.task2.main import (
+    INPUT,
+    ZOOM_NAME,
+    figure,
+    figure_zoom,
+    first_curve,
+    second_curve,
+    system,
+    task,
+)
 from lab2.task2.system import (
     NonlinearSystem,
     center,
@@ -120,6 +129,7 @@ def test_methods_stop_after_too_many_iterations(monkeypatch: pytest.MonkeyPatch)
 def test_task_prints_the_expected_output_and_plot() -> None:
     assert_expected_output(task, INPUT)
     assert_expected_plot(figure, INPUT)
+    assert_expected_plot(figure_zoom, INPUT, ZOOM_NAME)
 
 
 @pytest.mark.parametrize(

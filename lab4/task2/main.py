@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from lab1.common import (
+    PLOT_NAME,
     InputReader,
     Series,
     chart,
@@ -106,5 +107,8 @@ def figure(reader: InputReader) -> str:
     )
 
 
+FIGURES = {PLOT_NAME: figure}
+
+
 if __name__ == "__main__":
-    sys.exit(run(task, INPUT, sys.argv[1:], figure))
+    sys.exit(run(task, INPUT, sys.argv[1:], FIGURES))

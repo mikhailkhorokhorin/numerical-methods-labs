@@ -238,6 +238,26 @@ def test_draws_charts() -> None:
     assert chart("flat", [Series("c", [0.0, 1.0], [2.0, 2.0])]).count("<text") > 4
 
 
+def test_draws_bands_across_the_whole_height_behind_the_curves() -> None:
+    svg = chart(
+        "band",
+        [Series("curve", [0.0, 4.0], [0.0, 1.0]), Series("band", [1.0, 2.0], [], band=True)],
+    )
+    assert svg.index('<rect x="217.50" y="50.00" width="147.50" height="380.00"') < svg.index(
+        "<polyline"
+    )
+    assert svg.count('stroke="#dc2626" stroke-width="2"') == 2
+
+
+def test_fills_areas_and_widens_for_long_legends() -> None:
+    svg = chart("area", [Series("square", [0.0, 1.0, 1.0, 0.0], [0.0, 0.0, 1.0, 1.0], filled=True)])
+    assert svg.count("<polygon") == 1
+    assert 'fill-opacity="0.15"' in svg
+    assert 'width="880"' in svg
+    wide = chart("wide", [Series("x" * 60, [0.0, 1.0], [0.0, 1.0])])
+    assert 'width="1150"' in wide
+
+
 def test_rejects_empty_charts() -> None:
     with pytest.raises(ValueError, match="nothing to plot"):
         chart("empty", [Series("nan", [0.0], [math.nan])])
@@ -252,10 +272,19 @@ def test_run_saves_the_figure_next_to_the_input(
 ) -> None:
     path = tmp_path / "input.txt"
     path.write_text("2.5\n", encoding="utf-8")
-    assert run(double, path, [], plot) == 0
+    assert run(double, path, [], {PLOT_NAME: plot}) == 0
     assert capsys.readouterr().out == "2x = 5.0\ndone\n"
     assert (tmp_path / PLOT_NAME).read_text(encoding="utf-8") == "<svg>2.5</svg>\n"
     assert save_figure(plot, path) == tmp_path / PLOT_NAME
+
+
+def test_run_saves_every_figure(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    path = tmp_path / "input.txt"
+    path.write_text("3\n", encoding="utf-8")
+    assert run(double, path, [], {"a.svg": plot, "b.svg": plot}) == 0
+    capsys.readouterr()
+    assert (tmp_path / "a.svg").read_text(encoding="utf-8") == "<svg>3.0</svg>\n"
+    assert (tmp_path / "b.svg").exists()
 
 
 def test_run_reports_figures_it_cannot_write(
@@ -264,5 +293,5 @@ def test_run_reports_figures_it_cannot_write(
     path = tmp_path / "input.txt"
     path.write_text("1\n", encoding="utf-8")
     (tmp_path / PLOT_NAME).mkdir()
-    assert run(double, path, [], plot) == 1
+    assert run(double, path, [], {PLOT_NAME: plot}) == 1
     assert capsys.readouterr().err.startswith(f"error: cannot write {tmp_path / PLOT_NAME}")

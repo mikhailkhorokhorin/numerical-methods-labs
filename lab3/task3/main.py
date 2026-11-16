@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 
 from lab1.common import (
+    PLOT_NAME,
     InputReader,
     Series,
     Vector,
@@ -57,5 +58,8 @@ def figure(reader: InputReader) -> str:
     return chart("Least squares approximation", [*series, Series("table", xs, ys, markers=True)])
 
 
+FIGURES = {PLOT_NAME: figure}
+
+
 if __name__ == "__main__":
-    sys.exit(run(task, INPUT, sys.argv[1:], figure))
+    sys.exit(run(task, INPUT, sys.argv[1:], FIGURES))

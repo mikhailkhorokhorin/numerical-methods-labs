@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from lab1.common import (
+    PLOT_NAME,
     InputReader,
     Series,
     Vector,
@@ -79,5 +80,8 @@ def figure(reader: InputReader) -> str:
     return chart("x^2 y'' - 3x y' + 4y - 5x = 0", series)
 
 
+FIGURES = {PLOT_NAME: figure}
+
+
 if __name__ == "__main__":
-    sys.exit(run(task, INPUT, sys.argv[1:], figure))
+    sys.exit(run(task, INPUT, sys.argv[1:], FIGURES))

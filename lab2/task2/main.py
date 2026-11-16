@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from lab1.common import (
+    PLOT_NAME,
     InputReader,
     Series,
     Vector,
@@ -102,21 +103,70 @@ def task(reader: InputReader) -> list[str]:
     ]
 
 
+ZOOM_NAME = "plot_zoom.svg"
+ZOOM_MARGIN = 0.25
+
+
+def _equations(a: float, xs: Vector) -> list[Series]:
+    return [
+        Series(f"equation 1: e^(x1 x2) + x1 - {a:g} = 0", xs, [first_curve(a, x) for x in xs]),
+        Series(f"equation 2: x1^2 - {a:g} x2 - 1 = 0", xs, [second_curve(a, x) for x in xs]),
+    ]
+
+
+def _rectangle(label: str, region: Region) -> Series:
+    (low1, high1), (low2, high2) = region
+    return Series(
+        label, [low1, high1, high1, low1, low1], [low2, low2, high2, high2, low2], filled=True
+    )
+
+
 def figure(reader: InputReader) -> str:
     a, region, eps = read(reader)
     solution = newton(system(a), center(region), eps).value
-    (low1, high1), (low2, high2) = region
+    (low1, high1), _ = region
     xs = linspace(min(PLOT_RANGE[0], low1), max(PLOT_RANGE[1], high1), 201)
     return chart(
-        f"e^(x1 x2) + x1 - {a:g} = 0,  x1^2 - {a:g} x2 - 1 = 0",
+        "Graphical solution of the system",
         [
-            Series("first equation", xs, [first_curve(a, x) for x in xs]),
-            Series("second equation", xs, [second_curve(a, x) for x in xs]),
-            Series("region G", [low1, high1, high1, low1, low1], [low2, low2, high2, high2, low2]),
+            *_equations(a, xs),
+            _rectangle("region G", region),
             Series("solution", [solution[0]], [solution[1]], markers=True),
         ],
     )
 
 
+def _clip(value: float, low: float, high: float) -> float:
+    return value if low <= value <= high else math.nan
+
+
+def figure_zoom(reader: InputReader) -> str:
+    a, region, eps = read(reader)
+    start = center(region)
+    solution = newton(system(a), start, eps).value
+    (low1, high1), (low2, high2) = region
+    pad1 = ZOOM_MARGIN * (high1 - low1)
+    pad2 = ZOOM_MARGIN * (high2 - low2)
+    xs = linspace(low1 - pad1, high1 + pad1, 201)
+    curves = [
+        Series(item.label, item.xs, [_clip(y, low2 - pad2, high2 + pad2) for y in item.ys])
+        for item in _equations(a, xs)
+    ]
+    return chart(
+        "Graphical solution of the system: region G",
+        [
+            *curves,
+            _rectangle("region G", region),
+            Series(
+                f"initial guess ({start[0]:g}, {start[1]:g})", [start[0]], [start[1]], markers=True
+            ),
+            Series("solution", [solution[0]], [solution[1]], markers=True),
+        ],
+    )
+
+
+FIGURES = {PLOT_NAME: figure, ZOOM_NAME: figure_zoom}
+
+
 if __name__ == "__main__":
-    sys.exit(run(task, INPUT, sys.argv[1:], figure))
+    sys.exit(run(task, INPUT, sys.argv[1:], FIGURES))

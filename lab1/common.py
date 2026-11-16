@@ -2,7 +2,7 @@ import ast
 import math
 import operator
 import sys
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from html import escape
 from pathlib import Path
@@ -234,6 +234,8 @@ class Series:
     xs: Vector
     ys: Vector
     markers: bool = False
+    filled: bool = False
+    band: bool = False
 
 
 CHART_WIDTH = 880
@@ -244,6 +246,8 @@ TOP = 50.0
 BOTTOM = 430.0
 MAX_RADIUS = 6.0
 MIN_RADIUS = 3.0
+LEGEND_CHAR_WIDTH = 7.0
+FILL_OPACITY = 0.15
 COLORS = ("#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2")
 
 
@@ -326,12 +330,24 @@ def _axes(frame: _Frame) -> list[str]:
 def _series(index: int, series: Series, frame: _Frame, radius: float) -> list[str]:
     color = COLORS[index % len(COLORS)]
     parts: list[str] = []
-    for segment in _segments(series):
+    if series.band:
+        left, right = frame.x(min(series.xs)), frame.x(max(series.xs))
+        parts.append(
+            f'<rect x="{left:.2f}" y="{TOP:.2f}" width="{right - left:.2f}" '
+            f'height="{BOTTOM - TOP:.2f}" fill="{color}" fill-opacity="{FILL_OPACITY:g}"/>'
+        )
+        parts.extend(_line(x, TOP, x, BOTTOM, color, 2) for x in (left, right))
+    for segment in [] if series.band else _segments(series):
         points = [(frame.x(x), frame.y(y)) for x, y in segment]
+        path = " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
         if series.markers:
             parts.extend(_circle(x, y, color, radius) for x, y in points)
+        elif series.filled:
+            parts.append(
+                f'<polygon points="{path}" fill="{color}" fill-opacity="{FILL_OPACITY:g}" '
+                f'stroke="{color}" stroke-width="1.5"/>'
+            )
         else:
-            path = " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
             parts.append(
                 f'<polyline points="{path}" fill="none" stroke="{color}" stroke-width="2" '
                 'stroke-linejoin="round"/>'
@@ -339,6 +355,11 @@ def _series(index: int, series: Series, frame: _Frame, radius: float) -> list[st
     legend = TOP + 12 + 24 * index
     if series.markers:
         parts.append(_circle(RIGHT + 34, legend, color, radius))
+    elif series.filled or series.band:
+        parts.append(
+            f'<rect x="{RIGHT + 22:.2f}" y="{legend - 6:.2f}" width="24" height="12" '
+            f'fill="{color}" fill-opacity="{FILL_OPACITY:g}" stroke="{color}"/>'
+        )
     else:
         parts.append(_line(RIGHT + 22, legend, RIGHT + 46, legend, color, 2))
     parts.append(_text(RIGHT + 54, legend + 4, series.label))
@@ -346,29 +367,39 @@ def _series(index: int, series: Series, frame: _Frame, radius: float) -> list[st
 
 
 def chart(title: str, series: list[Series]) -> str:
-    points = [point for item in series for segment in _segments(item) for point in segment]
+    points = [
+        point
+        for item in series
+        if not item.band
+        for segment in _segments(item)
+        for point in segment
+    ]
     if not points:
         raise ValueError("nothing to plot")
-    xs = [x for x, _ in points]
+    xs = [x for x, _ in points] + [x for item in series if item.band for x in item.xs]
     ys = [y for _, y in points]
     margin = 0.05 * (max(ys) - min(ys))
     frame = _Frame(_ticks(min(xs), max(xs)), _ticks(min(ys) - margin, max(ys) + margin))
+    label = max(len(item.label) for item in series)
+    width = max(CHART_WIDTH, math.ceil(RIGHT + 70 + LEGEND_CHAR_WIDTH * label))
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{CHART_WIDTH}" height="{CHART_HEIGHT}" '
-        f'viewBox="0 0 {CHART_WIDTH} {CHART_HEIGHT}" font-family="Helvetica, Arial, sans-serif" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{CHART_HEIGHT}" '
+        f'viewBox="0 0 {width} {CHART_HEIGHT}" font-family="Helvetica, Arial, sans-serif" '
         'fill="#1f2937">',
-        f'<rect width="{CHART_WIDTH}" height="{CHART_HEIGHT}" fill="#ffffff"/>',
+        f'<rect width="{width}" height="{CHART_HEIGHT}" fill="#ffffff"/>',
         _text((LEFT + RIGHT) / 2, 30, title, "middle", 16),
         *_axes(frame),
         f'<rect x="{LEFT:.2f}" y="{TOP:.2f}" width="{RIGHT - LEFT:.2f}" '
         f'height="{BOTTOM - TOP:.2f}" fill="none" stroke="#6b7280"/>',
     ]
     markers = 0
+    layers: tuple[list[str], list[str]] = ([], [])
     for index, item in enumerate(series):
-        parts.extend(_series(index, item, frame, max(MIN_RADIUS, MAX_RADIUS - 1.5 * markers)))
+        drawn = _series(index, item, frame, max(MIN_RADIUS, MAX_RADIUS - 1.5 * markers))
+        layers[0 if item.band else 1].extend(drawn)
         if item.markers:
             markers += 1
-    parts.append("</svg>")
+    parts.extend([*layers[0], *layers[1], "</svg>"])
     return "\n".join(parts) + "\n"
 
 
@@ -385,8 +416,8 @@ def solve_file(task: Task, path: Path) -> list[str]:
     return task(InputReader(path.read_text(encoding="utf-8")))
 
 
-def save_figure(figure: Figure, path: Path) -> Path:
-    target = path.with_name(PLOT_NAME)
+def save_figure(figure: Figure, path: Path, name: str = PLOT_NAME) -> Path:
+    target = path.with_name(name)
     svg = figure(InputReader(path.read_text(encoding="utf-8")))
     try:
         target.write_text(svg, encoding="utf-8", newline="\n")
@@ -395,12 +426,14 @@ def save_figure(figure: Figure, path: Path) -> Path:
     return target
 
 
-def run(task: Task, default_input: Path, args: list[str], figure: Figure | None = None) -> int:
+def run(
+    task: Task, default_input: Path, args: list[str], figures: Mapping[str, Figure] | None = None
+) -> int:
     path = Path(args[0]) if args else default_input
     try:
         lines = solve_file(task, path)
-        if figure is not None:
-            save_figure(figure, path)
+        for name, figure in (figures or {}).items():
+            save_figure(figure, path, name)
     except FileNotFoundError:
         message = f"file not found: {path}"
     except OSError as error:

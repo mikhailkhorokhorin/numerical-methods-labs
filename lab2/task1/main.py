@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from lab1.common import (
+    PLOT_NAME,
     InputReader,
     Series,
     chart,
@@ -99,14 +100,17 @@ def figure(reader: InputReader) -> str:
     root = newton(f, f_derivative, f_second, a, b, eps).value
     xs = linspace(min(PLOT_RANGE[0], a), max(PLOT_RANGE[1], b), 161)
     return chart(
-        "f(x) = lg(2x + 1) - x^3 + 1",
+        "Root localization: f(x) = lg(2x + 1) - x^3 + 1",
         [
-            Series("f(x)", xs, [f(x) for x in xs]),
-            Series("a, b", [a, b], [0.0, 0.0], markers=True),
+            Series("f(x) = lg(2x + 1) - x^3 + 1", xs, [f(x) for x in xs]),
+            Series(f"interval [{a:g}, {b:g}]", [a, b], [], band=True),
             Series("root", [root], [0.0], markers=True),
         ],
     )
 
 
+FIGURES = {PLOT_NAME: figure}
+
+
 if __name__ == "__main__":
-    sys.exit(run(task, INPUT, sys.argv[1:], figure))
+    sys.exit(run(task, INPUT, sys.argv[1:], FIGURES))
